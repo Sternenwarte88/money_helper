@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as actionType from '../../actions/loginActions';
 import Input from '../../components/UI/Input';
 import classes from './login.module.css';
 
 class Login extends Component {
-	/* -------------- Temporarly State and preparation for dispatch ------------- */
-
 	state = {
 		'e-mail': '',
 		password: '',
@@ -18,11 +14,15 @@ class Login extends Component {
 		const newState = { ...this.state, [name]: event.target.value };
 		this.setState(newState);
 	};
+	signupHandler = () => {
+		this.props.history.push('/signUp');
+	};
 
 	render() {
 		const email = 'e-mail';
 		const password = 'password';
 		const pin = 'pin';
+
 		return (
 			<>
 				<div className={classes.login}>
@@ -64,12 +64,8 @@ class Login extends Component {
 							}>
 							{this.state.pin}
 						</Input>
-						/* --------------------- sending this.state to dispatch
-						--------------------- */
-						<button onClick={state => this.props.login(this.state)}>
-							{' '}
-							Login{' '}
-						</button>
+						<button onClick={''}> Login </button>
+						<button onClick={this.signupHandler}>Noch keinen Account?</button>
 					</div>
 				</div>
 			</>
@@ -77,21 +73,4 @@ class Login extends Component {
 	}
 }
 
-const mapDispatchToProps = dispatch => {
-	return {
-		login: state =>
-			dispatch({
-				type: actionType.LOGIN,
-				value: state,
-			}),
-		logout: () => dispatch({ type: actionType.LOGOUT }),
-	};
-};
-
-const mapStateToProps = state => {
-	return {
-		authState: state.loggedIn,
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
