@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import Input from '../../components/UI/Input';
 import classes from './login.module.css';
+import axios from 'axios';
 
 class Login extends Component {
 	state = {
-		'e-mail': '',
+		email: '',
 		password: '',
-		pin: '',
 	};
 
 	inputChangedHandler = (event, name) => {
-		console.log(this.state);
 		const newState = { ...this.state, [name]: event.target.value };
 		this.setState(newState);
 	};
@@ -18,10 +17,36 @@ class Login extends Component {
 		this.props.history.push('/signUp');
 	};
 
+	loginHandler = () => {
+		axios
+			.post(
+				'http://localhost:28010/login',
+				{
+					email: this.state.email,
+					password: this.state.password,
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					mode: 'cors',
+				}
+			)
+			.then(data => {
+				if (data.status === 200) {
+					this.props.history.push('/overview');
+				} else {
+					console.log(data);
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
 	render() {
-		const email = 'e-mail';
+		const email = 'email';
 		const password = 'password';
-		const pin = 'pin';
 
 		return (
 			<>
@@ -53,18 +78,8 @@ class Login extends Component {
 							}>
 							{this.state.password}
 						</Input>
-						<label htmlFor={pin}>Deine 4 stellige Pin</label>
-						<Input
-							class={classes.input}
-							name={pin}
-							type={'Number'}
-							placeholder='Deine Pin'
-							changeValue={(event, name) =>
-								this.inputChangedHandler(event, 'pin')
-							}>
-							{this.state.pin}
-						</Input>
-						<button onClick={''}> Login </button>
+
+						<button onClick={this.loginHandler}> Login </button>
 						<button onClick={this.signupHandler}>Noch keinen Account?</button>
 					</div>
 				</div>
