@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Input from '../../components/UI/Input';
 import classes from './login.module.css';
 import axios from 'axios';
+import { HeadTitle } from '../../components/UI/headTitle';
 
 class Login extends Component {
 	state = {
@@ -20,7 +21,7 @@ class Login extends Component {
 	loginHandler = () => {
 		axios
 			.post(
-				'http://localhost:28010/login',
+				'http://localhost:28010/mh/login',
 				{
 					email: this.state.email,
 					password: this.state.password,
@@ -34,7 +35,7 @@ class Login extends Component {
 			)
 			.then(data => {
 				if (data.status === 200) {
-					this.props.history.push('/overview');
+					this.props.history.push('/menu');
 				} else {
 					console.log(data);
 				}
@@ -51,8 +52,7 @@ class Login extends Component {
 		return (
 			<>
 				<div className={classes.login}>
-					<h1>Money Helper</h1>
-					<h2>Wilkommen zu deinem persönlichen Finanzgehilfen</h2>
+					<HeadTitle site={'Login'} />
 					<div className={classes.form}>
 						<label hmtlFor={email}>Deine E-Mail: </label>
 						<Input

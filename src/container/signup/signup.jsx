@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Input from '../../components/UI/Input';
 import classes from '../login/login.module.css';
+import { HeadTitle } from '../../components/UI/headTitle';
 
 import axios from 'axios';
 
@@ -22,7 +23,7 @@ class signUp extends Component {
 	signUpHandler = () => {
 		axios
 			.post(
-				'http://localhost:28010/users',
+				'http://localhost:28010/mh/users',
 				{
 					email: this.state.email,
 					password: this.state.password,
@@ -49,8 +50,7 @@ class signUp extends Component {
 		return (
 			<>
 				<div className={classes.login}>
-					<h1>Money Helper</h1>
-					<h2>Wilkommen zu deinem persönlichen Finanzgehilfen</h2>
+					<HeadTitle site={'sign Up'} />
 					<div className={classes.form}>
 						<label hmtlFor={email}>Deine E-Mail: </label>
 						<Input
