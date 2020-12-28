@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+
 import Input from '../../components/UI/Input';
 import classes from './login.module.css';
-import axios from 'axios';
 import { HeadTitle } from '../../components/UI/headTitle';
+import { login } from '../../store/actions/auth';
 
 class Login extends Component {
-	state = {
+	loginInformation = {
 		email: '',
 		password: '',
 	};
 
 	inputChangedHandler = (event, name) => {
-		const newState = { ...this.state, [name]: event.target.value };
-		this.setState(newState);
+		const newLoginInformation = {
+			...this.loginInformation,
+			[name]: event.target.value,
+		};
+		return (this.loginInformation = newLoginInformation);
 	};
 	signupHandler = () => {
 		this.props.history.push('/signUp');
@@ -23,8 +29,8 @@ class Login extends Component {
 			.post(
 				'http://localhost:28010/mh/login',
 				{
-					email: this.state.email,
-					password: this.state.password,
+					email: this.loginInformation.email,
+					password: this.loginInformation.password,
 				},
 				{
 					headers: {
@@ -63,7 +69,7 @@ class Login extends Component {
 							changeValue={(event, name) =>
 								this.inputChangedHandler(event, email)
 							}>
-							{this.state.email}
+							{this.loginInformation.email}
 						</Input>
 						<label htmlFor='password'>Dein Passwort:</label>
 						<Input
@@ -75,10 +81,15 @@ class Login extends Component {
 							changeValue={(event, name) =>
 								this.inputChangedHandler(event, 'password')
 							}>
-							{this.state.password}
+							{this.loginInformation.password}
 						</Input>
 
-						<button onClick={this.loginHandler}> Login </button>
+						<button
+							onClick={() => {
+								this.loginAction(this.loginInformation);
+							}}>
+							Login
+						</button>
 						<button onClick={this.signupHandler}>Noch keinen Account?</button>
 					</div>
 				</div>
@@ -87,4 +98,16 @@ class Login extends Component {
 	}
 }
 
-export default Login;
+const mapStateToProps = state => {
+	return {};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		loginAction: loginInformation => {
+			dispatch(login(loginInformation));
+		},
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
