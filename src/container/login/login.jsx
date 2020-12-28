@@ -60,7 +60,6 @@ class Login extends Component {
 							name={email}
 							type={email}
 							placeholder='example@example.de'
-							// value={this.state.email}
 							changeValue={(event, name) =>
 								this.inputChangedHandler(event, email)
 							}>

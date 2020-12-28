@@ -35,8 +35,8 @@ class signUp extends Component {
 					mode: 'cors',
 				}
 			)
-			.then(result => {
-				console.log(result);
+			.then(data => {
+				console.log(data);
 			})
 			.catch(err => {
 				console.log(err);
