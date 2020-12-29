@@ -1,11 +1,12 @@
-import { React, Component } from 'react';
-import { HeadTitle } from '../../components/UI/headTitle';
-import classes from './income.module.css';
 import axios from 'axios';
-
-import Input from '../../components/UI/Input';
+import { Component, React } from 'react';
 import { connect } from 'react-redux';
+import { HeadTitle } from '../../components/UI/headTitle';
+import Input from '../../components/UI/Input';
 import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
+import classes from './income.module.css';
+
+// TODO Style incomepage
 
 class Income extends Component {
 	state = {
@@ -15,6 +16,7 @@ class Income extends Component {
 		id: this.props.id,
 		revenueData: [],
 	};
+	//* Abfrage nach Einträgen in der Datenbank
 
 	getIncome = () => {
 		axios
@@ -31,11 +33,13 @@ class Income extends Component {
 			.then(response => {
 				let data = response.data;
 				this.setState({ ...this.state, revenueData: data });
+				console.log(this.state.revenueData);
 			})
 			.catch(err => {
 				console.log(err);
 			});
 	};
+	//* Betrag in die Datenbank eintragen
 
 	incomeHandler = () => {
 		axios
@@ -56,18 +60,12 @@ class Income extends Component {
 	};
 
 	inputValueHandler = (event, name) => {
-		setTimeout(() => {
-			const newstate = { ...this.state, [name]: event.target.value };
-			this.setState(newstate);
-		}, 2000);
+		const newstate = { ...this.state, [name]: event.target.value };
+		this.setState(newstate);
 	};
 
-	componentDidUpdate(prevProps, prevState) {
-		console.log(this.state.revenueData);
-	}
 	componentDidMount() {
 		this.getIncome();
-		console.log(this.state);
 	}
 	render() {
 		let revenueData = this.state.revenueData;
@@ -85,7 +83,7 @@ class Income extends Component {
 			<>
 				<HeadTitle site={'Einnahmen'} />
 				<div className={classes.overview}>
-					<p>Betrag</p> <p>Zweck</p> <p>Datum</p>
+					<h2>Betrag</h2> <h2>Zweck</h2> <h2>Datum</h2>
 					{reveneuTable}
 				</div>
 				<div>

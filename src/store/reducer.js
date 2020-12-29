@@ -1,7 +1,7 @@
 import * as actionTypes from './actions/auth';
 const initialState = {
 	email: '',
-	loginState: false,
+	loginState: true,
 	id: '',
 };
 

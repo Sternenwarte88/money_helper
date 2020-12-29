@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Input from '../../components/UI/Input';
-import classes from './login.module.css';
 import { HeadTitle } from '../../components/UI/headTitle';
+import Input from '../../components/UI/Input';
 import * as actionCreators from '../../store/actions/auth';
+import classes from './login.module.css';
+
+// TODO: Style loginpage
 
 class Login extends Component {
 	loginInformation = {
@@ -60,21 +62,26 @@ class Login extends Component {
 							}>
 							{this.loginInformation.password}
 						</Input>
-
-						<button
-							onClick={loginInformation => {
-								this.props.loginAction(this.loginInformation);
-							}}>
-							Login
-						</button>
-						<button onClick={this.signupHandler}>Noch keinen Account?</button>
+						<div>
+							<button
+								className={classes.loginBtn}
+								onClick={loginInformation => {
+									this.props.loginAction(this.loginInformation);
+								}}>
+								Login
+							</button>
+							<button
+								className={classes.signUpBtn}
+								onClick={this.signupHandler}>
+								Noch keinen Account?
+							</button>
+						</div>
 					</div>
 				</div>
 			</>
 		);
 	}
 }
-
 
 const mapStateToProps = state => {
 	return {
