@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
-
 import Input from '../../components/UI/Input';
 import classes from './login.module.css';
 import { HeadTitle } from '../../components/UI/headTitle';
-import { login } from '../../store/actions/auth';
+import * as actionCreators from '../../store/actions/auth';
 
 class Login extends Component {
 	loginInformation = {
@@ -24,32 +22,11 @@ class Login extends Component {
 		this.props.history.push('/signUp');
 	};
 
-	loginHandler = () => {
-		axios
-			.post(
-				'http://localhost:28010/mh/login',
-				{
-					email: this.loginInformation.email,
-					password: this.loginInformation.password,
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					mode: 'cors',
-				}
-			)
-			.then(data => {
-				if (data.status === 200) {
-					this.props.history.push('/menu');
-				} else {
-					console.log(data);
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
+	componentDidUpdate(prevProps, prevState) {
+		if (this.props.loggedIn) {
+			this.props.history.push('/menu');
+		}
+	}
 
 	render() {
 		const email = 'email';
@@ -85,8 +62,8 @@ class Login extends Component {
 						</Input>
 
 						<button
-							onClick={() => {
-								this.loginAction(this.loginInformation);
+							onClick={loginInformation => {
+								this.props.loginAction(this.loginInformation);
 							}}>
 							Login
 						</button>
@@ -98,15 +75,17 @@ class Login extends Component {
 	}
 }
 
+
 const mapStateToProps = state => {
-	return {};
+	return {
+		loggedIn: state.loginState,
+	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		loginAction: loginInformation => {
-			dispatch(login(loginInformation));
-		},
+		loginAction: loginInformation =>
+			dispatch(actionCreators.login(loginInformation)),
 	};
 };
 
