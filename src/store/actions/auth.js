@@ -2,7 +2,6 @@ import axios from 'axios';
 export const LOGIN = 'LOGIN';
 
 export const login = loginInformation => {
-	console.log('loginHandler');
 	return dispatch => {
 		axios
 			.post(
@@ -20,10 +19,10 @@ export const login = loginInformation => {
 			)
 			.then(data => {
 				if (data.status === 200) {
-					console.log(data);
 					const newInformation = {
 						...loginInformation,
 						loggedIn: true,
+						id: data.data.id,
 					};
 					dispatch(loginDatabase(newInformation));
 				} else {

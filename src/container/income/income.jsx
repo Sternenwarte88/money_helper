@@ -4,23 +4,50 @@ import classes from './income.module.css';
 import axios from 'axios';
 
 import Input from '../../components/UI/Input';
+import { connect } from 'react-redux';
+import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
 
 class Income extends Component {
 	state = {
 		amount: 0,
 		reason: '',
 		date: '',
+		id: this.props.id,
+		revenueData: [],
 	};
+
+	getIncome = () => {
+		axios
+			.post(
+				'http://localhost:28010/mh/getIncome',
+				{ id: this.state.id },
+				{
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					mode: 'cors',
+				}
+			)
+			.then(response => {
+				let data = response.data;
+				this.setState({ ...this.state, revenueData: data });
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
 	incomeHandler = () => {
 		axios
 			.post('http://localhost:28010/mh/finance', {
 				amount: this.state.amount,
 				reason: this.state.reason,
 				date: this.state.date,
+				id: this.props.id,
 			})
 			.then(res => {
-				if (res.msg === 'accepted') {
-					console.log(res.msg);
+				if (res.data.msg === 'accepted') {
+					this.getIncome();
 				}
 			})
 			.catch(err => {
@@ -29,24 +56,37 @@ class Income extends Component {
 	};
 
 	inputValueHandler = (event, name) => {
-		const newState = { ...this.state, [name]: event.target.value };
-		this.setState(newState);
+		setTimeout(() => {
+			const newstate = { ...this.state, [name]: event.target.value };
+			this.setState(newstate);
+		}, 2000);
 	};
 
 	componentDidUpdate(prevProps, prevState) {
+		console.log(this.state.revenueData);
+	}
+	componentDidMount() {
+		this.getIncome();
 		console.log(this.state);
 	}
-
 	render() {
-		//TODO adding add income handler
+		let revenueData = this.state.revenueData;
 
+		let reveneuTable = revenueData.map(data => {
+			return (
+				<ReveneuTableDisplay
+					amount={data.amount}
+					reason={data.reason}
+					date={data.date}
+				/>
+			);
+		});
 		return (
 			<>
 				<HeadTitle site={'Einnahmen'} />
 				<div className={classes.overview}>
-					<div>Betrag</div>
-					<div>Zweck</div>
-					<div>Datum</div>
+					<p>Betrag</p> <p>Zweck</p> <p>Datum</p>
+					{reveneuTable}
 				</div>
 				<div>
 					<Input
@@ -86,4 +126,10 @@ class Income extends Component {
 	}
 }
 
-export default Income;
+const mapStateToProps = state => {
+	return {
+		id: state.id,
+	};
+};
+
+export default connect(mapStateToProps)(Income);

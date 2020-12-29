@@ -13,7 +13,6 @@ class app extends Component {
 			<Switch>
 				<Route path='/' exact component={Login} />
 				<Route path='/signup' exact component={Signup} />
-				<Route path='/income' exact component={income} />
 			</Switch>
 		);
 		if (this.props.loggedIn === true) {
