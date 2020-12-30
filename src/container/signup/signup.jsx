@@ -1,9 +1,13 @@
+import axios from 'axios';
 import React, { Component } from 'react';
+import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import classes from '../login/login.module.css';
-import { HeadTitle } from '../../components/UI/headTitle';
 
-import axios from 'axios';
+// TODO Style signUp Page
+// TODO After signingUp redirect to Login
+// TODO Implement Password confirmation
+// TODO Send a mail for confirmation
 
 class signUp extends Component {
 	state = {
@@ -35,11 +39,13 @@ class signUp extends Component {
 					mode: 'cors',
 				}
 			)
-			.then(data => {
-				console.log(data);
+			.then(res => {
+				if (res.data.msg === 'User created!') {
+					this.props.history.push('/');
+				}
 			})
 			.catch(err => {
-				console.log(err);
+				console.log(err.msg);
 			});
 	};
 

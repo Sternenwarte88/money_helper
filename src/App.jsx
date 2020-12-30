@@ -1,11 +1,14 @@
-import './App.css';
-import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import Login from './container/login/login';
-import Signup from './container/signup/signup';
-import menu from './container/menu/menu';
+import { connect } from 'react-redux';
+import { Route, Switch, withRouter } from 'react-router';
+import './App.css';
 import income from './container/income/income';
-import { Switch, Route, withRouter } from 'react-router';
+import Login from './container/login/login';
+import menu from './container/menu/menu';
+import Signup from './container/signup/signup';
+
+// TODO implement an Optionsmenu
+// TODO Implement a logout function
 
 class app extends Component {
 	render() {

@@ -1,6 +1,10 @@
 import React from 'react';
 import { HeadTitle } from '../../components/UI/headTitle';
 
+// TODO:Make overview and bills functional
+// TODO: Display a little overview of 3 items from each income and bills
+// TODO Style everything
+
 class overview extends React.Component {
 	render() {
 		const incomePageHandler = () => {

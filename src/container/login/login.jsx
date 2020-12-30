@@ -5,7 +5,7 @@ import Input from '../../components/UI/Input';
 import * as actionCreators from '../../store/actions/auth';
 import classes from './login.module.css';
 
-// TODO: Style loginpage
+// TODO: Store token in state
 
 class Login extends Component {
 	loginInformation = {
