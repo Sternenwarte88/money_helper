@@ -7,6 +7,7 @@ import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
 import classes from './income.module.css';
 
 // TODO Style incomepage
+// TODO Add delete button to income
 
 class Income extends Component {
 	state = {
@@ -31,7 +32,7 @@ class Income extends Component {
 				}
 			)
 			.then(response => {
-				let data = response.data;
+				let data = response.data.finance.income;
 				this.setState({ ...this.state, revenueData: data });
 				console.log(this.state.revenueData);
 			})
@@ -70,15 +71,28 @@ class Income extends Component {
 	render() {
 		let revenueData = this.state.revenueData;
 
-		let reveneuTable = revenueData.map(data => {
-			return (
-				<ReveneuTableDisplay
-					amount={data.amount}
-					reason={data.reason}
-					date={data.date}
-				/>
-			);
-		});
+		let reveneuTable = revenueData
+
+			.sort((a, b) => {
+				if (a.date < b.date) {
+					return -1;
+				}
+				if (a.date > b.date) {
+					return 1;
+				}
+
+				return 0;
+			})
+			.map(data => {
+				return (
+					<ReveneuTableDisplay
+						amount={data.amount}
+						reason={data.reason}
+						date={data.date}
+						key={data.id}
+					/>
+				);
+			});
 		return (
 			<>
 				<HeadTitle site={'Einnahmen'} />
@@ -111,6 +125,7 @@ class Income extends Component {
 						class={classes.input}
 						type={'date'}
 						name={this.state.date}
+						pattern='\d{4}-\d{2}-\d{2}'
 						placeholder={'Zu welchem Datum?'}
 						changeValue={(event, name) => {
 							this.inputValueHandler(event, 'date');

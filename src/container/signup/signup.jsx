@@ -5,7 +5,6 @@ import Input from '../../components/UI/Input';
 import classes from '../login/login.module.css';
 
 // TODO Style signUp Page
-// TODO After signingUp redirect to Login
 // TODO Implement Password confirmation
 // TODO Send a mail for confirmation
 

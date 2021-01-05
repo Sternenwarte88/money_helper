@@ -33,4 +33,14 @@ button {
 	width: 100%;
 	margin: 3%;
 	padding: 4px;
+	background-color: rgb(115, 232, 244);
+	text-decoration: none;
+	border-color: black;
+}
+
+button:active {
+	background-color: rgb(115, 232, 244);
+	text-decoration: none;
+	border-color: black;
+	border-style: inset;
 }

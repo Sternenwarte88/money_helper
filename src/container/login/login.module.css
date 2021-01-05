@@ -22,7 +22,6 @@
 	border-color: black;
 }
 
-.loginBtn:hover,
 .loginBtn:active {
 	background-color: rgb(115, 232, 244);
 	text-decoration: none;
@@ -34,7 +33,6 @@
 	text-decoration: none;
 	border-color: black;
 }
-.signUpBtn:hover,
 .signUpBtn:active {
 	background-color: rgb(138, 242, 203);
 	text-decoration: none;
