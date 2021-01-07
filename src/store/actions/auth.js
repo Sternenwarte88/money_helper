@@ -1,7 +1,9 @@
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 export const LOGIN = 'LOGIN';
 
 export const login = loginInformation => {
+	const cookies = new Cookies();
 	return dispatch => {
 		axios
 			.post(
@@ -13,6 +15,7 @@ export const login = loginInformation => {
 				{
 					headers: {
 						'Content-Type': 'application/json',
+						Authorization: cookies.get('loginState'),
 					},
 					mode: 'cors',
 				}
@@ -24,6 +27,9 @@ export const login = loginInformation => {
 						loggedIn: true,
 						id: data.data.id,
 					};
+					cookies.set('loginState', data.data.token);
+					cookies.set('id', data.data.id);
+					console.log(data);
 					dispatch(loginDatabase(newInformation));
 				} else {
 					console.log(data);

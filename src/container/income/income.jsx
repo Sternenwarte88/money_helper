@@ -1,13 +1,17 @@
-import axios from 'axios';
+import axios from '../../axiosDefault';
 import { Component, React } from 'react';
 import { connect } from 'react-redux';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
 import classes from './income.module.css';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 // TODO Style incomepage
 // TODO Add delete button to income
+// TODO Add pagination
 
 class Income extends Component {
 	state = {
@@ -21,20 +25,11 @@ class Income extends Component {
 
 	getIncome = () => {
 		axios
-			.post(
-				'http://localhost:28010/mh/getIncome',
-				{ id: this.state.id },
-				{
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					mode: 'cors',
-				}
-			)
+			.get('/getIncome')
 			.then(response => {
 				let data = response.data.finance.income;
 				this.setState({ ...this.state, revenueData: data });
-				console.log(this.state.revenueData);
+				console.log(response.data.finance.income);
 			})
 			.catch(err => {
 				console.log(err);
@@ -89,51 +84,53 @@ class Income extends Component {
 						amount={data.amount}
 						reason={data.reason}
 						date={data.date}
-						key={data.id}
+						key={data._id}
 					/>
 				);
 			});
 		return (
 			<>
-				<HeadTitle site={'Einnahmen'} />
-				<div className={classes.overview}>
-					<h2>Betrag</h2> <h2>Zweck</h2> <h2>Datum</h2>
-					{reveneuTable}
-				</div>
 				<div>
-					<Input
-						class={classes.input}
-						type={'number'}
-						name={this.state.amount}
-						placeholder={299.99}
-						changeValue={(event, name) => {
-							this.inputValueHandler(event, 'amount');
-						}}>
-						{this.state.amount}
-					</Input>
-					<Input
-						class={classes.input}
-						type={'text'}
-						name={this.state.reason}
-						placeholder={'Wofür ist der Betrag?'}
-						changeValue={(event, name) => {
-							this.inputValueHandler(event, 'reason');
-						}}>
-						{this.state.reason}
-					</Input>
-					<Input
-						class={classes.input}
-						type={'date'}
-						name={this.state.date}
-						pattern='\d{4}-\d{2}-\d{2}'
-						placeholder={'Zu welchem Datum?'}
-						changeValue={(event, name) => {
-							this.inputValueHandler(event, 'date');
-						}}>
-						{this.state.date}
-					</Input>
+					<HeadTitle site={'Einnahmen'} />
+					<div className={classes.overview}>
+						<h2>Betrag</h2> <h2>Zweck</h2> <h2>Datum</h2>
+						{reveneuTable}
+					</div>
+					<div className={classes.form}>
+						<Input
+							class={classes.input}
+							type={'number'}
+							name={this.state.amount}
+							placeholder={299.99}
+							changeValue={(event, name) => {
+								this.inputValueHandler(event, 'amount');
+							}}>
+							{this.state.amount}
+						</Input>
+						<Input
+							class={classes.input}
+							type={'text'}
+							name={this.state.reason}
+							placeholder={'Wofür ist der Betrag?'}
+							changeValue={(event, name) => {
+								this.inputValueHandler(event, 'reason');
+							}}>
+							{this.state.reason}
+						</Input>
+						<Input
+							class={classes.input}
+							type={'date'}
+							name={this.state.date}
+							placeholder={'dd-mm-yyyy'}
+							changeValue={(event, name) => {
+								this.inputValueHandler(event, 'date');
+							}}>
+							{this.state.date}
+						</Input>
+					</div>
+
+					<button onClick={this.incomeHandler}>Füge Einkommen hinzu</button>
 				</div>
-				<button onClick={this.incomeHandler}>Füge Einkommen hinzu</button>
 			</>
 		);
 	}

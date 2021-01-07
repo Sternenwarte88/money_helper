@@ -2,11 +2,12 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
-import classes from '../login/login.module.css';
+import classes from '../signup/signup.module.css';
 
 // TODO Style signUp Page
 // TODO Implement Password confirmation
 // TODO Send a mail for confirmation
+// TODO Implement error feedback
 
 class signUp extends Component {
 	state = {
@@ -54,8 +55,8 @@ class signUp extends Component {
 
 		return (
 			<>
-				<div className={classes.login}>
-					<HeadTitle site={'sign Up'} />
+				<div className={classes.signUp}>
+					<HeadTitle site={'Sign Up'} />
 					<div className={classes.form}>
 						<label hmtlFor={email}>Deine E-Mail: </label>
 						<Input
@@ -78,10 +79,12 @@ class signUp extends Component {
 							}>
 							{this.state.password}
 						</Input>
-						<button onClick={this.signUpHandler}> Erstelle Account </button>
-						<button onClick={this.loginHandler}>
-							Hast Du schon einen Account?
-						</button>
+						<div>
+							<button onClick={this.signUpHandler}> Erstelle Account </button>
+							<button onClick={this.loginHandler}>
+								Hast Du schon einen Account?
+							</button>
+						</div>
 					</div>
 				</div>
 			</>

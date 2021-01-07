@@ -3,6 +3,7 @@
 #root {
 	display: flex;
 	justify-content: center;
+	flex-direction: column;
 	align-items: center;
 	height: 100vh;
 	width: 100vw;
@@ -12,10 +13,6 @@ body {
 	text-align: center;
 	display: inline-block;
 	background-image: linear-gradient(white, #00ffe7);
-}
-
-button {
-	display: inline-block;
 }
 
 input {
@@ -31,7 +28,7 @@ h2 {
 
 button {
 	width: 100%;
-	margin: 3%;
+	margin: 3% auto;
 	padding: 4px;
 	background-color: rgb(115, 232, 244);
 	text-decoration: none;

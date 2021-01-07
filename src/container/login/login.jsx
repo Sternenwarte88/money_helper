@@ -5,7 +5,9 @@ import Input from '../../components/UI/Input';
 import * as actionCreators from '../../store/actions/auth';
 import classes from './login.module.css';
 
-// TODO: Store token in state
+// TODO: Pre-Alpha Banner
+// TODO: Loading Modal (loading circle)
+// TODO: Implement error feedback
 
 class Login extends Component {
 	loginInformation = {
@@ -83,7 +85,7 @@ class Login extends Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
 	return {
 		loggedIn: state.loginState,
 	};
