@@ -25,6 +25,7 @@ export const login = loginInformation => {
 					const newInformation = {
 						...loginInformation,
 						loggedIn: true,
+						password: '',
 						id: data.data.id,
 					};
 					cookies.set('loginState', data.data.token);

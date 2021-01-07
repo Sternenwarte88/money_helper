@@ -1,0 +1,15 @@
+.amount {
+	grid-area: amount;
+}
+
+.reason {
+	grid-area: reason;
+}
+
+.date {
+	grid-area: date;
+}
+
+.trash {
+	grid-area: trash;
+}

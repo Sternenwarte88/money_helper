@@ -1,7 +1,23 @@
 .overview {
 	display: grid;
-	grid-template-columns: repeat(3, auto);
+	grid-template-columns: repeat(4, auto);
+	grid-template-rows: auto;
+	grid-template-areas:
+		'reasonHead amountHead dateHead .'
+		'reason amount date trash';
 }
 .input {
 	display: block;
+}
+
+.amount {
+	grid-area: amountHead;
+}
+
+.reason {
+	grid-area: reasonHead;
+}
+
+.date {
+	grid-area: dateHead;
 }

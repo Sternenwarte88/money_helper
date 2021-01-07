@@ -93,7 +93,9 @@ class Income extends Component {
 				<div>
 					<HeadTitle site={'Einnahmen'} />
 					<div className={classes.overview}>
-						<h2>Betrag</h2> <h2>Zweck</h2> <h2>Datum</h2>
+						<h2 className={classes.reason}>Zweck</h2>
+						<h2 className={classes.amount}>Betrag</h2>
+						<h2 className={classes.date}>Datum</h2>
 						{reveneuTable}
 					</div>
 					<div className={classes.form}>
