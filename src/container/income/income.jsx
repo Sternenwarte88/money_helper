@@ -38,15 +38,17 @@ class Income extends Component {
 	//* Betrag in die Datenbank eintragen
 
 	incomeHandler = () => {
+		console.log(new Date(this.state.date).toLocaleDateString('de-DE'));
 		axios
 			.post('http://localhost:28010/mh/finance', {
 				amount: this.state.amount,
 				reason: this.state.reason,
-				date: this.state.date,
+				date: new Date(this.state.date).toLocaleDateString('de-DE'),
 				id: this.props.id,
 			})
 			.then(res => {
-				if (res.data.msg === 'accepted') {
+				console.log(res);
+				if (res.status === 200) {
 					this.getIncome();
 				}
 			})
@@ -58,6 +60,25 @@ class Income extends Component {
 	inputValueHandler = (event, name) => {
 		const newstate = { ...this.state, [name]: event.target.value };
 		this.setState(newstate);
+	};
+
+	incomeDeleteHandler = incomeID => {
+		axios
+			.delete('/delete', {
+				params: {
+					incomeID: incomeID,
+				},
+			})
+			.then(res => {
+				console.log(res);
+				if (res.status === 200) {
+					this.getIncome();
+					console.log(res.status);
+				}
+			})
+			.catch(err => {
+				console.log(err);
+			});
 	};
 
 	componentDidMount() {
@@ -85,6 +106,9 @@ class Income extends Component {
 						reason={data.reason}
 						date={data.date}
 						key={data._id}
+						clicked={incomeID => {
+							this.incomeDeleteHandler(data._id);
+						}}
 					/>
 				);
 			});

@@ -8,7 +8,7 @@ const reveneuTableDisplay = props => {
 			<div className={classes.amount}>{props.amount}€</div>
 			<div className={classes.date}>{props.date}</div>
 			<div className={classes.trash}>
-				<img src={trash} alt='' />
+				<img src={trash} alt='' onClick={props.clicked} />
 			</div>
 		</>
 	);
