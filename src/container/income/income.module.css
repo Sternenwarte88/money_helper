@@ -5,9 +5,12 @@
 	grid-template-areas:
 		'reasonHead amountHead dateHead .'
 		'reason amount date trash';
+	margin: 2rem 0;
 }
-.input {
-	display: block;
+.input_income {
+	margin: 0 2rem;
+	display: flex;
+	width: 25%;
 }
 
 .amount {
@@ -20,4 +23,16 @@
 
 .date {
 	grid-area: dateHead;
+}
+
+button {
+	width: 25%;
+}
+
+.form {
+	display: flex;
+	justify-content: space-between;
+	align-items: end;
+	height: 50%;
+	width: 100%;
 }

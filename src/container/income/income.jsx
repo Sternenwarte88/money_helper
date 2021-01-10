@@ -7,6 +7,7 @@ import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
 import classes from './income.module.css';
 import Cookies from 'universal-cookie';
 
+
 const cookies = new Cookies();
 
 // TODO Style incomepage
@@ -123,7 +124,7 @@ class Income extends Component {
 					</div>
 					<div className={classes.form}>
 						<Input
-							class={classes.input}
+							class={classes.input_income}
 							type={'number'}
 							name={this.state.amount}
 							placeholder={299.99}
@@ -133,7 +134,7 @@ class Income extends Component {
 							{this.state.amount}
 						</Input>
 						<Input
-							class={classes.input}
+							class={classes.input_income}
 							type={'text'}
 							name={this.state.reason}
 							placeholder={'Wofür ist der Betrag?'}
@@ -143,7 +144,7 @@ class Income extends Component {
 							{this.state.reason}
 						</Input>
 						<Input
-							class={classes.input}
+							class={classes.input_income}
 							type={'date'}
 							name={this.state.date}
 							placeholder={'dd-mm-yyyy'}
