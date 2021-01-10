@@ -26,12 +26,6 @@ class Login extends Component {
 		this.props.history.push('/signUp');
 	};
 
-	componentDidUpdate(prevProps, prevState) {
-		if (this.props.loggedIn) {
-			this.props.history.push('/menu');
-		}
-	}
-
 	render() {
 		const email = 'email';
 		const password = 'password';
@@ -67,8 +61,8 @@ class Login extends Component {
 						<div>
 							<button
 								className={classes.loginBtn}
-								onClick={loginInformation => {
-									this.props.loginAction(this.loginInformation);
+								onClick={(loginInformation, props) => {
+									this.props.loginAction(this.loginInformation, this.props);
 								}}>
 								Login
 							</button>
@@ -93,8 +87,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		loginAction: loginInformation =>
-			dispatch(actionCreators.login(loginInformation)),
+		loginAction: (loginInformation, props) =>
+			dispatch(actionCreators.login(loginInformation, props)),
 	};
 };
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 export const LOGIN = 'LOGIN';
 
-export const login = loginInformation => {
+export const login = (loginInformation, props) => {
 	const cookies = new Cookies();
 	return dispatch => {
 		axios
@@ -35,6 +35,9 @@ export const login = loginInformation => {
 				} else {
 					console.log(data);
 				}
+			})
+			.then(result => {
+				props.history.push('/menu');
 			})
 			.catch(err => {
 				const newInformation = {

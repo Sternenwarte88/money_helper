@@ -10,7 +10,6 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 // TODO Style incomepage
-// TODO Add delete button to income
 // TODO Add pagination
 
 class Income extends Component {
