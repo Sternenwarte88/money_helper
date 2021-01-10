@@ -5,10 +5,6 @@ import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
 import classes from './income.module.css';
-import Cookies from 'universal-cookie';
-
-
-const cookies = new Cookies();
 
 // TODO Style incomepage
 // TODO Add pagination
@@ -38,7 +34,7 @@ class Income extends Component {
 	//* Betrag in die Datenbank eintragen
 
 	incomeHandler = () => {
-		console.log(new Date(this.state.date).toLocaleDateString('de-DE'));
+		console.log(new Date(this.state.date));
 		axios
 			.post('http://localhost:28010/mh/finance', {
 				amount: this.state.amount,
@@ -87,6 +83,15 @@ class Income extends Component {
 	render() {
 		let revenueData = this.state.revenueData;
 
+		let sum = 0;
+
+		if (revenueData) {
+			revenueData.map(data => {
+				console.log(data);
+				return (sum += data.amount);
+			});
+		}
+
 		let reveneuTable = revenueData
 
 			.sort((a, b) => {
@@ -112,14 +117,18 @@ class Income extends Component {
 					/>
 				);
 			});
+		let reasonHead = 'reasonHead';
+		let amountHead = 'amountHead';
+		let dateHead = 'dateHead';
 		return (
 			<>
 				<div>
 					<HeadTitle site={'Einnahmen'} />
 					<div className={classes.overview}>
-						<h2 className={classes.reason}>Zweck</h2>
-						<h2 className={classes.amount}>Betrag</h2>
-						<h2 className={classes.date}>Datum</h2>
+						<h2 className={reasonHead}>Zweck</h2>
+						<h2 className={amountHead}>Betrag</h2>
+						<h2 className={dateHead}>Datum</h2>
+						<div></div>
 						{reveneuTable}
 					</div>
 					<div className={classes.form}>
@@ -154,7 +163,7 @@ class Income extends Component {
 							{this.state.date}
 						</Input>
 					</div>
-
+					<div>Sum = {sum} €</div>
 					<button onClick={this.incomeHandler}>Füge Einkommen hinzu</button>
 				</div>
 			</>

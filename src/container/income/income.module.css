@@ -1,28 +1,13 @@
 .overview {
 	display: grid;
 	grid-template-columns: repeat(4, auto);
-	grid-template-rows: auto;
-	grid-template-areas:
-		'reasonHead amountHead dateHead .'
-		'reason amount date trash';
+	grid-auto-rows: auto;
 	margin: 2rem 0;
 }
 .input_income {
 	margin: 0 2rem;
 	display: flex;
 	width: 25%;
-}
-
-.amount {
-	grid-area: amountHead;
-}
-
-.reason {
-	grid-area: reasonHead;
-}
-
-.date {
-	grid-area: dateHead;
 }
 
 button {
@@ -32,7 +17,7 @@ button {
 .form {
 	display: flex;
 	justify-content: space-between;
-	align-items: end;
+	align-items: flex-end;
 	height: 50%;
 	width: 100%;
 }
