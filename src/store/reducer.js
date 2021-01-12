@@ -3,6 +3,7 @@ const initialState = {
 	email: '',
 	loginState: false,
 	id: '',
+	auth: false,
 };
 
 const reducer = (state = initialState, action) => {

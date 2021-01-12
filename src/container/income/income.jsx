@@ -1,27 +1,39 @@
-import axios from '../../axiosDefault';
 import { Component, React } from 'react';
 import { connect } from 'react-redux';
+import axios from '../../axiosDefault';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
+import handLeft from '../../img/icons/hand-point-left-solid.svg';
+import handRight from '../../img/icons/hand-point-right-regular.svg';
 import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
 import classes from './income.module.css';
 
 // TODO Style incomepage
-// TODO Add pagination
+// TODO Add repeat option for insert data
 
 class Income extends Component {
-	state = {
-		amount: 0,
-		reason: '',
-		date: '',
-		id: this.props.id,
-		revenueData: [],
-	};
-	//* Abfrage nach Einträgen in der Datenbank
+	constructor(props) {
+		super(props);
+		this.state = {
+			amount: 0,
+			reason: '',
+			date: '',
+			id: this.props.id,
+			revenueData: [],
+		};
+		this.page = 1;
+		this.items = 10;
+	}
 
+	//* Abfrage nach Einträgen in der Datenbank
 	getIncome = () => {
 		axios
-			.get('/getIncome')
+			.get('/getIncome', {
+				params: {
+					items: this.items,
+					page: this.page,
+				},
+			})
 			.then(response => {
 				let data = response.data.finance.income;
 				this.setState({ ...this.state, revenueData: data });
@@ -81,16 +93,20 @@ class Income extends Component {
 		this.getIncome();
 	}
 	render() {
+		//*	output for income, sorted and sliced for pagination
+
 		let revenueData = this.state.revenueData;
 
 		let sum = 0;
 
 		if (revenueData) {
 			revenueData.map(data => {
-				console.log(data);
 				return (sum += data.amount);
 			});
 		}
+
+		let itemsToShow = (this.page - 1) * this.items;
+		let lastItems = this.page * this.items;
 
 		let reveneuTable = revenueData
 
@@ -101,9 +117,9 @@ class Income extends Component {
 				if (a.date > b.date) {
 					return 1;
 				}
-
 				return 0;
 			})
+			.slice(itemsToShow, lastItems)
 			.map(data => {
 				return (
 					<ReveneuTableDisplay
@@ -117,6 +133,7 @@ class Income extends Component {
 					/>
 				);
 			});
+
 		let reasonHead = 'reasonHead';
 		let amountHead = 'amountHead';
 		let dateHead = 'dateHead';
@@ -124,12 +141,54 @@ class Income extends Component {
 			<>
 				<div>
 					<HeadTitle site={'Einnahmen'} />
+					<div className={classes.itemCounter}>
+						Angezeigte Elemente:
+						<select
+							name='items'
+							id=''
+							onChange={event => {
+								this.items = event.target.value;
+								this.getIncome();
+							}}>
+							<option value='10'>10</option>
+							<option value='25'>25</option>
+							<option value='50'>50</option>
+						</select>
+					</div>
 					<div className={classes.overview}>
 						<h2 className={reasonHead}>Zweck</h2>
 						<h2 className={amountHead}>Betrag</h2>
 						<h2 className={dateHead}>Datum</h2>
 						<div></div>
 						{reveneuTable}
+					</div>
+					<div>Sum = {sum} €</div>
+
+					<div className={classes.paginationControll}>
+						<div className={classes.pageBack}>
+							<img
+								src={handLeft}
+								alt=''
+								srcSet=''
+								onClick={() => {
+									this.page >= 2 ? (this.page -= 1) : (itemsToShow = 0);
+									this.getIncome();
+								}}
+							/>
+						</div>
+						<div className={classes.pageForward}>
+							<img
+								src={handRight}
+								alt=''
+								srcSet=''
+								onClick={() => {
+									revenueData.length % lastItems === revenueData.length
+										? (lastItems = revenueData.length)
+										: (this.page += 1);
+									this.getIncome();
+								}}
+							/>
+						</div>
 					</div>
 					<div className={classes.form}>
 						<Input
@@ -163,8 +222,9 @@ class Income extends Component {
 							{this.state.date}
 						</Input>
 					</div>
-					<div>Sum = {sum} €</div>
-					<button onClick={this.incomeHandler}>Füge Einkommen hinzu</button>
+					<button className={classes.submitBtn} onClick={this.incomeHandler}>
+						Füge Einkommen hinzu
+					</button>
 				</div>
 			</>
 		);
