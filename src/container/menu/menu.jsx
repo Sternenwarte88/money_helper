@@ -12,6 +12,9 @@ class overview extends React.Component {
 		const incomePageHandler = () => {
 			this.props.history.push('/income');
 		};
+		const billsPageHandler = () => {
+			this.props.history.push('/bills');
+		};
 		return (
 			<>
 				<div className={classes.head}>
@@ -20,7 +23,7 @@ class overview extends React.Component {
 				<div>
 					<button>Übersicht</button>
 					<button onClick={incomePageHandler}>Einnahmen</button>
-					<button>Ausgaben</button>
+					<button onClick={billsPageHandler}>Ausgaben</button>
 				</div>
 				<div>Tabellenspalte</div>
 			</>

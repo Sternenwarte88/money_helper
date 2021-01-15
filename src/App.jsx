@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router';
 import './App.css';
 import income from './container/income/income';
+import bills from './container/bills/bills';
 import Login from './container/login/login';
 import menu from './container/menu/menu';
 import Signup from './container/signup/signup';
@@ -37,6 +38,7 @@ class app extends Component {
 					<Route path='/signup' exact component={Signup} />
 					<Route path='/menu' exact component={menu} />
 					<Route path='/income' exact component={income} />
+					<Route path='/bills' exact component={bills} />
 				</Switch>
 			);
 		}

@@ -2,9 +2,9 @@
 	display: grid;
 	grid-template-columns: repeat(4, auto);
 	grid-auto-rows: auto;
-	margin: 1rem 0;
+	margin: 2rem 0;
 }
-.input_income {
+.bills_income {
 	margin: 0 2rem;
 	display: flex;
 	width: 25%;

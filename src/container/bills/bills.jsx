@@ -5,13 +5,13 @@ import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import handLeft from '../../img/icons/hand-point-left-solid.svg';
 import handRight from '../../img/icons/hand-point-right-regular.svg';
-import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
-import classes from './income.module.css';
+import ReveneuTableDisplay from '../../components/reveneutable/reveneuTable';
+import classes from './bills.module.css';
 
-// TODO Style incomepage
+// TODO Style billspage
 // TODO Add repeat option for insert data
 
-class Income extends Component {
+class bills extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -26,18 +26,18 @@ class Income extends Component {
 	}
 
 	//* Abfrage nach Einträgen in der Datenbank
-	getIncome = () => {
+	getbills = () => {
 		axios
-			.get('/getIncome', {
+			.get('/getBills', {
 				params: {
 					items: this.items,
 					page: this.page,
 				},
 			})
 			.then(response => {
-				let data = response.data.finance.income;
+				let data = response.data.finance.bills;
 				this.setState({ ...this.state, revenueData: data });
-				console.log(response.data.finance.income);
+				console.log(response.data.finance.bills);
 			})
 			.catch(err => {
 				console.log(err);
@@ -45,10 +45,10 @@ class Income extends Component {
 	};
 	//* Betrag in die Datenbank eintragen
 
-	incomeHandler = () => {
+	billsHandler = () => {
 		console.log(new Date(this.state.date));
 		axios
-			.post('http://localhost:28010/mh/income', {
+			.post('http://localhost:28010/mh/bills', {
 				amount: this.state.amount,
 				reason: this.state.reason,
 				date: new Date(this.state.date).toLocaleDateString('de-DE'),
@@ -57,7 +57,7 @@ class Income extends Component {
 			.then(res => {
 				console.log(res);
 				if (res.status === 200) {
-					this.getIncome();
+					this.getbills();
 				}
 			})
 			.catch(err => {
@@ -70,17 +70,17 @@ class Income extends Component {
 		this.setState(newstate);
 	};
 
-	incomeDeleteHandler = incomeID => {
+	billsDeleteHandler = billsID => {
 		axios
-			.delete('/deleteIncome', {
+			.delete('/deleteBills', {
 				params: {
-					incomeID: incomeID,
+					billsID: billsID,
 				},
 			})
 			.then(res => {
 				console.log(res);
 				if (res.status === 200) {
-					this.getIncome();
+					this.getbills();
 					console.log(res.status);
 				}
 			})
@@ -90,10 +90,10 @@ class Income extends Component {
 	};
 
 	componentDidMount() {
-		this.getIncome();
+		this.getbills();
 	}
 	render() {
-		//*	output for income, sorted and sliced for pagination
+		//*	output for bills, sorted and sliced for pagination
 
 		let revenueData = this.state.revenueData;
 
@@ -127,8 +127,8 @@ class Income extends Component {
 						reason={data.reason}
 						date={data.date}
 						key={data._id}
-						clicked={incomeID => {
-							this.incomeDeleteHandler(data._id);
+						clicked={billsID => {
+							this.billsDeleteHandler(data._id);
 						}}
 					/>
 				);
@@ -140,7 +140,7 @@ class Income extends Component {
 		return (
 			<>
 				<div>
-					<HeadTitle site={'Einnahmen'} />
+					<HeadTitle site={'Ausgaben'} />
 					<div className={classes.itemCounter}>
 						Angezeigte Elemente:
 						<select
@@ -148,7 +148,7 @@ class Income extends Component {
 							id=''
 							onChange={event => {
 								this.items = event.target.value;
-								this.getIncome();
+								this.getbills();
 							}}>
 							<option value='10'>10</option>
 							<option value='25'>25</option>
@@ -172,7 +172,7 @@ class Income extends Component {
 								srcSet=''
 								onClick={() => {
 									this.page >= 2 ? (this.page -= 1) : (itemsToShow = 0);
-									this.getIncome();
+									this.getbills();
 								}}
 							/>
 						</div>
@@ -185,14 +185,14 @@ class Income extends Component {
 									revenueData.length % lastItems === revenueData.length
 										? (lastItems = revenueData.length)
 										: (this.page += 1);
-									this.getIncome();
+									this.getbills();
 								}}
 							/>
 						</div>
 					</div>
 					<div className={classes.form}>
 						<Input
-							class={classes.input_income}
+							class={classes.input_bills}
 							type={'number'}
 							name={this.state.amount}
 							placeholder={299.99}
@@ -202,7 +202,7 @@ class Income extends Component {
 							{this.state.amount}
 						</Input>
 						<Input
-							class={classes.input_income}
+							class={classes.input_bills}
 							type={'text'}
 							name={this.state.reason}
 							placeholder={'Wofür ist der Betrag?'}
@@ -212,7 +212,7 @@ class Income extends Component {
 							{this.state.reason}
 						</Input>
 						<Input
-							class={classes.input_income}
+							class={classes.input_bills}
 							type={'date'}
 							name={this.state.date}
 							placeholder={'dd-mm-yyyy'}
@@ -222,8 +222,8 @@ class Income extends Component {
 							{this.state.date}
 						</Input>
 					</div>
-					<button className={classes.submitBtn} onClick={this.incomeHandler}>
-						Füge Einkommen hinzu
+					<button className={classes.submitBtn} onClick={this.billsHandler}>
+						Füge Ausgaben hinzu
 					</button>
 				</div>
 			</>
@@ -237,4 +237,4 @@ const mapStateToProps = state => {
 	};
 };
 
-export default connect(mapStateToProps)(Income);
+export default connect(mapStateToProps)(bills);
