@@ -1,0 +1,26 @@
+.header {
+	display: grid;
+	align-items: center;
+	height: 2.5%;
+	grid-template-columns: repeat(4, 25%);
+	width: 100%;
+}
+
+.account {
+	height: 100%;
+	grid-column: 3 / 4;
+	justify-self: end;
+}
+
+.account:hover {
+	cursor: pointer;
+}
+
+.backBtn {
+	height: 100%;
+	grid-column: 2 / 3;
+}
+
+.backBtn:hover {
+	cursor: pointer;
+}

@@ -5,13 +5,12 @@
 	margin: 1rem 0;
 }
 .input_income {
-	margin: 0 2rem;
+	margin: 0 5px;
 	display: flex;
-	width: 25%;
 }
 
 .submitBtn {
-	width: 25%;
+	width: 40%;
 }
 
 .form {
@@ -31,7 +30,7 @@
 .pageBack,
 .pageForward {
 	display: inline;
-	width: 3%;
+	width: 5%;
 	margin: 5% 10%;
 }
 

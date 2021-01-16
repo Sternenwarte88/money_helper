@@ -11,17 +11,17 @@ import axios from './axiosDefault';
 
 // TODO implement an Optionsmenu
 // TODO Implement a logout function
-let auth = false;
-axios
-	.get('/auth')
-	.then(data => {
-		if (data.data.msg === 'auth=true') {
-			auth = true;
-		}
-	})
-	.catch(err => {
-		console.log(err);
-	});
+// let auth = false;
+// axios
+// 	.get('/auth')
+// 	.then(data => {
+// 		if (data.data.msg === 'auth=true') {
+// 			auth = true;
+// 		}
+// 	})
+// 	.catch(err => {
+// 		console.log(err);
+// 	});
 
 class app extends Component {
 	render() {
@@ -31,7 +31,7 @@ class app extends Component {
 				<Route path='/signup' exact component={Signup} />
 			</Switch>
 		);
-		if (auth) {
+		// if (auth) {
 			mainMenu = (
 				<Switch>
 					<Route path='/' exact component={Login} />
@@ -41,7 +41,7 @@ class app extends Component {
 					<Route path='/bills' exact component={bills} />
 				</Switch>
 			);
-		}
+		// }
 		return <>{mainMenu}</>;
 	}
 }

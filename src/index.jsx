@@ -7,14 +7,16 @@ import reducer from './store/reducer';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-
+import Layout from './components/layout/layout';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 const app = (
 	<BrowserRouter>
 		<Provider store={store}>
-			<App />
+			<Layout>
+				<App />
+			</Layout>
 		</Provider>
 	</BrowserRouter>
 );

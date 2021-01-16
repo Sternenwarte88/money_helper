@@ -2,16 +2,15 @@
 	display: grid;
 	grid-template-columns: repeat(4, auto);
 	grid-auto-rows: auto;
-	margin: 2rem 0;
+	margin: 1rem 0;
 }
 .bills_income {
-	margin: 0 2rem;
+	margin: 0 5px;
 	display: flex;
-	width: 25%;
 }
 
 .submitBtn {
-	width: 25%;
+	width: 40%;
 }
 
 .form {
@@ -31,7 +30,7 @@
 .pageBack,
 .pageForward {
 	display: inline;
-	width: 3%;
+	width: 5%;
 	margin: 5% 10%;
 }
 
