@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-export const LOGIN = 'LOGIN';
+import * as actionCreators from './actionCreators';
 
 export const login = (loginInformation, props) => {
 	const cookies = new Cookies();
@@ -50,9 +50,9 @@ export const login = (loginInformation, props) => {
 	};
 };
 
-export const loginDatabase = loginInformation => {
+const loginDatabase = loginInformation => {
 	return {
-		type: LOGIN,
+		type: actionCreators.LOGIN,
 		loginInformation: loginInformation,
 	};
 };

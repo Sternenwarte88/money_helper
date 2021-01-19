@@ -7,6 +7,7 @@ import handLeft from '../../img/icons/hand-point-left-solid.svg';
 import handRight from '../../img/icons/hand-point-right-regular.svg';
 import ReveneuTableDisplay from '../../components/reveneutable/reveneuTable';
 import classes from './bills.module.css';
+import * as actionCreators from '../../store/actions/actionCreators';
 
 // TODO Style billspage
 // TODO Add repeat option for insert data
@@ -19,30 +20,11 @@ class bills extends Component {
 			reason: '',
 			date: '',
 			id: this.props.id,
-			revenueData: [],
 		};
 		this.page = 1;
 		this.items = 10;
 	}
 
-	//* Abfrage nach Einträgen in der Datenbank
-	getbills = () => {
-		axios
-			.get('/getBills', {
-				params: {
-					items: this.items,
-					page: this.page,
-				},
-			})
-			.then(response => {
-				let data = response.data.finance.bills;
-				this.setState({ ...this.state, revenueData: data });
-				console.log(response.data.finance.bills);
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
 	//* Betrag in die Datenbank eintragen
 
 	billsHandler = () => {
@@ -57,7 +39,7 @@ class bills extends Component {
 			.then(res => {
 				console.log(res);
 				if (res.status === 200) {
-					this.getbills();
+					return;
 				}
 			})
 			.catch(err => {
@@ -70,69 +52,54 @@ class bills extends Component {
 		this.setState(newstate);
 	};
 
-	billsDeleteHandler = billsID => {
-		axios
-			.delete('/deleteBills', {
-				params: {
-					billsID: billsID,
-				},
-			})
-			.then(res => {
-				console.log(res);
-				if (res.status === 200) {
-					this.getbills();
-					console.log(res.status);
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
-
 	componentDidMount() {
-		this.getbills();
+		this.props.getFinanceData('bills');
 	}
 	render() {
 		//*	output for bills, sorted and sliced for pagination
 
-		let revenueData = this.state.revenueData;
-
+		let revenueData = '';
+		let reveneuTable = revenueData;
+		let itemsToShow = (this.page - 1) * this.items;
+		let lastItems = this.page * this.items;
 		let sum = 0;
 
-		if (revenueData) {
+		if (this.props.reveneuData.bills) {
+			revenueData = this.props.reveneuData.bills;
 			revenueData.map(data => {
 				return (sum += data.amount);
 			});
+
+			reveneuTable = revenueData
+
+				.sort((a, b) => {
+					if (a.date < b.date) {
+						return -1;
+					}
+					if (a.date > b.date) {
+						return 1;
+					}
+					return 0;
+				})
+				.slice(itemsToShow, lastItems)
+				.map(data => {
+					return (
+						<ReveneuTableDisplay
+							amount={data.amount}
+							reason={data.reason}
+							date={data.date}
+							key={data._id}
+							clicked={(itemID, financeType, oldState) => {
+								this.props.deleteBills(
+									data._id,
+									'bills',
+									this.props.reveneuData.bills
+								);
+							}}
+						/>
+					);
+				});
 		}
-
-		let itemsToShow = (this.page - 1) * this.items;
-		let lastItems = this.page * this.items;
-
-		let reveneuTable = revenueData
-
-			.sort((a, b) => {
-				if (a.date < b.date) {
-					return -1;
-				}
-				if (a.date > b.date) {
-					return 1;
-				}
-				return 0;
-			})
-			.slice(itemsToShow, lastItems)
-			.map(data => {
-				return (
-					<ReveneuTableDisplay
-						amount={data.amount}
-						reason={data.reason}
-						date={data.date}
-						key={data._id}
-						clicked={billsID => {
-							this.billsDeleteHandler(data._id);
-						}}
-					/>
-				);
-			});
 
 		let reasonHead = 'reasonHead';
 		let amountHead = 'amountHead';
@@ -172,7 +139,6 @@ class bills extends Component {
 								srcSet=''
 								onClick={() => {
 									this.page >= 2 ? (this.page -= 1) : (itemsToShow = 0);
-									this.getbills();
 								}}
 							/>
 						</div>
@@ -185,7 +151,6 @@ class bills extends Component {
 									revenueData.length % lastItems === revenueData.length
 										? (lastItems = revenueData.length)
 										: (this.page += 1);
-									this.getbills();
 								}}
 							/>
 						</div>
@@ -234,7 +199,23 @@ class bills extends Component {
 const mapStateToProps = state => {
 	return {
 		id: state.id,
+		reveneuData: state.reveneuData,
 	};
 };
 
-export default connect(mapStateToProps)(bills);
+const mapDispatchToProps = dispatch => {
+	return {
+		getFinanceData: financeType =>
+			dispatch(actionCreators.financeActions.getFinance(financeType)),
+		deleteBills: (itemID, financeType, oldState) =>
+			dispatch(
+				actionCreators.financeActions.deleteHandler(
+					itemID,
+					financeType,
+					oldState
+				)
+			),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(bills);

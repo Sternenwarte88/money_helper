@@ -8,6 +8,7 @@ import handRight from '../../img/icons/hand-point-right-regular.svg';
 import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
 import classes from './income.module.css';
 
+import * as actionCreators from '../../store/actions/actionCreators';
 // TODO Style incomepage
 // TODO Add repeat option for insert data
 
@@ -19,30 +20,11 @@ class Income extends Component {
 			reason: '',
 			date: '',
 			id: this.props.id,
-			revenueData: [],
 		};
 		this.page = 1;
 		this.items = 10;
 	}
 
-	//* Abfrage nach Einträgen in der Datenbank
-	getIncome = () => {
-		axios
-			.get('/getIncome', {
-				params: {
-					items: this.items,
-					page: this.page,
-				},
-			})
-			.then(response => {
-				let data = response.data.finance.income;
-				this.setState({ ...this.state, revenueData: data });
-				console.log(response.data.finance.income);
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
 	//* Betrag in die Datenbank eintragen
 
 	incomeHandler = () => {
@@ -57,7 +39,7 @@ class Income extends Component {
 			.then(res => {
 				console.log(res);
 				if (res.status === 200) {
-					this.getIncome();
+					this.props.getFinanceData('income');
 				}
 			})
 			.catch(err => {
@@ -70,69 +52,74 @@ class Income extends Component {
 		this.setState(newstate);
 	};
 
-	incomeDeleteHandler = incomeID => {
-		axios
-			.delete('/deleteIncome', {
-				params: {
-					incomeID: incomeID,
-				},
-			})
-			.then(res => {
-				console.log(res);
-				if (res.status === 200) {
-					this.getIncome();
-					console.log(res.status);
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
+	// incomeDeleteHandler = incomeID => {
+	// 	axios
+	// 		.delete('/deleteIncome', {
+	// 			params: {
+	// 				incomeID: incomeID,
+	// 			},
+	// 		})
+	// 		.then(res => {
+	// 			console.log(res);
+	// 			if (res.status === 200) {
+	// 				this.props.getFinanceData('income');
+	// 				console.log(res.status);
+	// 			}
+	// 		})
+	// 		.catch(err => {
+	// 			console.log(err);
+	// 		});
+	// };
 
 	componentDidMount() {
-		this.getIncome();
+		this.props.getFinanceData('income');
 	}
+
 	render() {
 		//*	output for income, sorted and sliced for pagination
 
-		let revenueData = this.state.revenueData;
-
+		let revenueData = '';
+		let reveneuTable = revenueData;
+		let itemsToShow = (this.page - 1) * this.items;
+		let lastItems = this.page * this.items;
 		let sum = 0;
 
-		if (revenueData) {
+		if (this.props.reveneuData.income) {
+			revenueData = this.props.reveneuData.income;
 			revenueData.map(data => {
 				return (sum += data.amount);
 			});
+
+			reveneuTable = revenueData
+
+				.sort((a, b) => {
+					if (a.date < b.date) {
+						return -1;
+					}
+					if (a.date > b.date) {
+						return 1;
+					}
+					return 0;
+				})
+				.slice(itemsToShow, lastItems)
+				.map(data => {
+					return (
+						<ReveneuTableDisplay
+							amount={data.amount}
+							reason={data.reason}
+							date={data.date}
+							key={data._id}
+							clicked={(itemID, financeType, oldState) => {
+								this.props.deleteIncome(
+									data._id,
+									'income',
+									this.props.reveneuData.income
+								);
+							}}
+						/>
+					);
+				});
 		}
-
-		let itemsToShow = (this.page - 1) * this.items;
-		let lastItems = this.page * this.items;
-
-		let reveneuTable = revenueData
-
-			.sort((a, b) => {
-				if (a.date < b.date) {
-					return -1;
-				}
-				if (a.date > b.date) {
-					return 1;
-				}
-				return 0;
-			})
-			.slice(itemsToShow, lastItems)
-			.map(data => {
-				return (
-					<ReveneuTableDisplay
-						amount={data.amount}
-						reason={data.reason}
-						date={data.date}
-						key={data._id}
-						clicked={incomeID => {
-							this.incomeDeleteHandler(data._id);
-						}}
-					/>
-				);
-			});
 
 		let reasonHead = 'reasonHead';
 		let amountHead = 'amountHead';
@@ -148,7 +135,7 @@ class Income extends Component {
 							id=''
 							onChange={event => {
 								this.items = event.target.value;
-								this.getIncome();
+								this.props.getFinanceData('income');
 							}}>
 							<option value='10'>10</option>
 							<option value='25'>25</option>
@@ -172,7 +159,7 @@ class Income extends Component {
 								srcSet=''
 								onClick={() => {
 									this.page >= 2 ? (this.page -= 1) : (itemsToShow = 0);
-									this.getIncome();
+									this.props.getFinanceData('income');
 								}}
 							/>
 						</div>
@@ -185,7 +172,7 @@ class Income extends Component {
 									revenueData.length % lastItems === revenueData.length
 										? (lastItems = revenueData.length)
 										: (this.page += 1);
-									this.getIncome();
+									this.props.getFinanceData('income');
 								}}
 							/>
 						</div>
@@ -234,7 +221,23 @@ class Income extends Component {
 const mapStateToProps = state => {
 	return {
 		id: state.id,
+		reveneuData: state.reveneuData,
 	};
 };
 
-export default connect(mapStateToProps)(Income);
+const mapDispatchToProps = dispatch => {
+	return {
+		getFinanceData: financeType =>
+			dispatch(actionCreators.financeActions.getFinance(financeType)),
+		deleteIncome: (itemID, financeType, oldState) =>
+			dispatch(
+				actionCreators.financeActions.deleteHandler(
+					itemID,
+					financeType,
+					oldState
+				)
+			),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Income);

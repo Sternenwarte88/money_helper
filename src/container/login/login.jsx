@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
-import * as actionCreators from '../../store/actions/auth';
+import * as actionCreators from '../../store/actions/actionCreators';
 import classes from './login.module.css';
 
 // TODO: Pre-Alpha Banner
@@ -35,7 +35,7 @@ class Login extends Component {
 				<div className={classes.login}>
 					<HeadTitle site={'Login'} />
 					<div className={classes.form}>
-						<label hmtlFor={email}>Deine E-Mail: </label>
+						<label htmlFor={email}>Deine E-Mail: </label>
 						<Input
 							class={classes.input}
 							name={email}
@@ -88,7 +88,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
 	return {
 		loginAction: (loginInformation, props) =>
-			dispatch(actionCreators.login(loginInformation, props)),
+			dispatch(actionCreators.authActions.login(loginInformation, props)),
 	};
 };
 
