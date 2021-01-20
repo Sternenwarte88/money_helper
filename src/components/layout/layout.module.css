@@ -1,15 +1,17 @@
 .header {
 	display: grid;
+	position: absolute;
+	top: 1rem;
 	align-items: center;
-	height: 2.5%;
 	grid-template-columns: repeat(4, 25%);
 	width: 100%;
 }
 
 .account {
-	height: 100%;
-	grid-column: 3 / 4;
+	height: 30%;
+	grid-column: 4 / 5;
 	justify-self: end;
+	margin-right: 1rem;
 }
 
 .account:hover {
@@ -17,8 +19,9 @@
 }
 
 .backBtn {
-	height: 100%;
-	grid-column: 2 / 3;
+	height: 30%;
+	grid-column: 1 / 2;
+	margin-left: 1rem;
 }
 
 .backBtn:hover {

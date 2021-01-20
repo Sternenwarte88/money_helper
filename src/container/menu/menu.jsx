@@ -3,11 +3,11 @@ import { HeadTitle } from '../../components/UI/headTitle';
 import classes from './menu.module.css';
 import { connect } from 'react-redux';
 
-// TODO: Make overview and bills functional
+// TODO: Make overview
 // TODO: Display a little overview of 3 items from each income and bills
 // TODO: Style everything
 
-class overview extends React.Component {
+class Menu extends React.Component {
 	render() {
 		const incomePageHandler = () => {
 			this.props.history.push('/income');
@@ -17,9 +17,7 @@ class overview extends React.Component {
 		};
 		return (
 			<>
-				<div className={classes.head}>
-					<HeadTitle site={'Menü'} />
-				</div>
+				<HeadTitle site={'Menü'} />
 				<div>
 					<button>Übersicht</button>
 					<button onClick={incomePageHandler}>Einnahmen</button>
@@ -37,4 +35,4 @@ const mapStateToProp = (state, ownProps) => {
 	};
 };
 
-export default connect(mapStateToProp)(overview);
+export default connect(mapStateToProp)(Menu);

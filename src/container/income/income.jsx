@@ -52,24 +52,6 @@ class Income extends Component {
 		this.setState(newstate);
 	};
 
-	// incomeDeleteHandler = incomeID => {
-	// 	axios
-	// 		.delete('/deleteIncome', {
-	// 			params: {
-	// 				incomeID: incomeID,
-	// 			},
-	// 		})
-	// 		.then(res => {
-	// 			console.log(res);
-	// 			if (res.status === 200) {
-	// 				this.props.getFinanceData('income');
-	// 				console.log(res.status);
-	// 			}
-	// 		})
-	// 		.catch(err => {
-	// 			console.log(err);
-	// 		});
-	// };
 
 	componentDidMount() {
 		this.props.getFinanceData('income');

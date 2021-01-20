@@ -28,13 +28,16 @@ export const login = (loginInformation, props) => {
 						password: '',
 						id: data.data.id,
 					};
-					cookies.set('loginState', data.data.token);
-					cookies.set('id', data.data.id);
-					console.log(data);
 					dispatch(loginDatabase(newInformation));
 				} else {
 					console.log(data);
 				}
+				return data;
+			})
+			.then(data => {
+				console.log(data);
+				cookies.set('loginState', data.data.token);
+				cookies.set('id', data.data.id);
 			})
 			.then(result => {
 				props.history.push('/menu');

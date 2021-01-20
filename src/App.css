@@ -24,6 +24,7 @@ h2 {
 	padding: 8px;
 	margin: 0;
 	font-family: 'Playfair Display', serif;
+	font-size: 1.3rem;
 }
 
 button {
@@ -40,4 +41,9 @@ button:active {
 	text-decoration: none;
 	border-color: black;
 	border-style: inset;
+}
+
+.mainSection {
+	position: absolut;
+	top: 2rem;
 }

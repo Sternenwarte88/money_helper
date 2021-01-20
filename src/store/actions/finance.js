@@ -26,7 +26,6 @@ export const getFinance = financeType => {
 				}
 				let data = financeData;
 				dispatch(getfinance(financeType, data));
-				console.log(data);
 			})
 			.catch(err => {
 				console.log(err);
@@ -59,12 +58,10 @@ export const deleteHandler = (itemID, financeType, oldState) => {
 			.then(res => {
 				console.log(res);
 				if (res.status === 200) {
-					console.log(itemID);
 					let filteredFinance = oldState.filter(
 						obj => obj._id !== itemID.toString()
 					);
 					dispatch(dispatchFilteredFinance(financeType, filteredFinance));
-					console.log(res.status);
 				}
 			})
 			.catch(err => {
