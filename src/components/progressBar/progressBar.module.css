@@ -1,0 +1,34 @@
+.progressBarContainer {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.progressBar {
+	display: flex;
+	border: 1px solid black;
+	border-radius: 40%;
+	width: 50%;
+	height: 15px;
+	overflow: hidden;
+}
+
+.incomeBar {
+	background-image: linear-gradient(to right, green 90%, red);
+}
+
+.billsBar {
+	background-color: red;
+}
+
+.summary {
+	display: flex;
+}
+
+.income {
+	width: 50%;
+}
+
+.bills {
+	width: 50%;
+}

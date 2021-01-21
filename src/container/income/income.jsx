@@ -52,7 +52,6 @@ class Income extends Component {
 		this.setState(newstate);
 	};
 
-
 	componentDidMount() {
 		this.props.getFinanceData('income');
 	}
