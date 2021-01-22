@@ -1,4 +1,4 @@
-import account from '../../img/icons/user-cog-solid.svg';
+import accountBtn from '../../img/icons/user-cog-solid.svg';
 import backBtn from '../../img/icons/arrow-alt-circle-left-solid.svg';
 import classes from './layout.module.css';
 import { withRouter } from 'react-router';
@@ -12,7 +12,11 @@ const Layout = props => {
 					src={backBtn}
 					alt='back-button'
 				/>
-				<img className={classes.account} src={account} alt='account-button' />
+				<img
+					className={classes.accountBtn}
+					src={accountBtn}
+					alt='accountBtn-button'
+				/>
 			</div>
 			<div>{props.children}</div>
 		</>

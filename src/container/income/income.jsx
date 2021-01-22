@@ -5,10 +5,9 @@ import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import handLeft from '../../img/icons/hand-point-left-solid.svg';
 import handRight from '../../img/icons/hand-point-right-regular.svg';
-import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
 import classes from './income.module.css';
-
 import * as actionCreators from '../../store/actions/actionCreators';
+import FinanceSummaryItem from '../../components/reveneutable/financeSummaryItem';
 // TODO Style incomepage
 // TODO Add repeat option for insert data
 
@@ -22,13 +21,12 @@ class Income extends Component {
 			id: this.props.id,
 		};
 		this.page = 1;
-		this.items = 10;
+		this.itemsToShow = 10;
 	}
 
 	//* Betrag in die Datenbank eintragen
 
 	incomeHandler = () => {
-		console.log(new Date(this.state.date));
 		axios
 			.post('http://localhost:28010/mh/income', {
 				amount: this.state.amount,
@@ -59,19 +57,19 @@ class Income extends Component {
 	render() {
 		//*	output for income, sorted and sliced for pagination
 
-		let revenueData = '';
-		let reveneuTable = revenueData;
-		let itemsToShow = (this.page - 1) * this.items;
-		let lastItems = this.page * this.items;
+		let financeData = '';
+		let financeSummaryItem = '';
+		let firstItemPerPage = (this.page - 1) * this.itemsToShow;
+		let lastItemPerPage = this.page * this.itemsToShow;
 		let sum = 0;
 
-		if (this.props.reveneuData.income) {
-			revenueData = this.props.reveneuData.income;
-			revenueData.map(data => {
+		if (this.props.financeData.income) {
+			financeData = this.props.financeData.income;
+			financeData.map(data => {
 				return (sum += data.amount);
 			});
 
-			reveneuTable = revenueData
+			financeSummaryItem = financeData
 
 				.sort((a, b) => {
 					if (a.date < b.date) {
@@ -82,10 +80,10 @@ class Income extends Component {
 					}
 					return 0;
 				})
-				.slice(itemsToShow, lastItems)
+				.slice(firstItemPerPage, lastItemPerPage)
 				.map(data => {
 					return (
-						<ReveneuTableDisplay
+						<FinanceSummaryItem
 							amount={data.amount}
 							reason={data.reason}
 							date={data.date}
@@ -94,7 +92,7 @@ class Income extends Component {
 								this.props.deleteIncome(
 									data._id,
 									'income',
-									this.props.reveneuData.income
+									this.props.financeData.income
 								);
 							}}
 						/>
@@ -112,7 +110,7 @@ class Income extends Component {
 					<div className={classes.itemCounter}>
 						Angezeigte Elemente:
 						<select
-							name='items'
+							name='itemsToShow'
 							id=''
 							onChange={event => {
 								this.items = event.target.value;
@@ -128,7 +126,7 @@ class Income extends Component {
 						<h2 className={amountHead}>Betrag</h2>
 						<h2 className={dateHead}>Datum</h2>
 						<div></div>
-						{reveneuTable}
+						{financeSummaryItem}
 					</div>
 					<div>Sum = {sum} €</div>
 
@@ -139,7 +137,7 @@ class Income extends Component {
 								alt=''
 								srcSet=''
 								onClick={() => {
-									this.page >= 2 ? (this.page -= 1) : (itemsToShow = 0);
+									this.page >= 2 ? (this.page -= 1) : (firstItemPerPage = 0);
 									this.props.getFinanceData('income');
 								}}
 							/>
@@ -150,8 +148,8 @@ class Income extends Component {
 								alt=''
 								srcSet=''
 								onClick={() => {
-									revenueData.length % lastItems === revenueData.length
-										? (lastItems = revenueData.length)
+									financeData.length % lastItemPerPage === financeData.length
+										? (lastItemPerPage = financeData.length)
 										: (this.page += 1);
 									this.props.getFinanceData('income');
 								}}
@@ -202,7 +200,7 @@ class Income extends Component {
 const mapStateToProps = state => {
 	return {
 		id: state.id,
-		reveneuData: state.reveneuData,
+		financeData: state.financeData,
 	};
 };
 

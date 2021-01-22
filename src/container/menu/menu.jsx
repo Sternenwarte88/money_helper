@@ -1,10 +1,10 @@
 import React from 'react';
 import { HeadTitle } from '../../components/UI/headTitle';
 import { connect } from 'react-redux';
-import ReveneuTableDisplay from './../../components/reveneutable/reveneuTable';
 import classes from './menu.module.css';
 import ProgressBar from '../../components/progressBar/progressBar';
 import * as actionCreators from '../../store/actions/actionCreators';
+import FinanceSummaryItem from './../../components/reveneutable/financeSummaryItem';
 
 // TODO: Make overview
 // TODO: Display a little overview of 3 items from each income and bills
@@ -16,23 +16,20 @@ class Menu extends React.Component {
 		this.props.getFinanceData('bills');
 	}
 	render() {
-		let revenueData;
-		let reveneuTableIncome;
-		let reveneuTableBills;
+		let financeData;
+		let financeDataIncome;
+		let financeDataBills;
 		let sumIncome = 0;
 		let sumBills = 0;
 
-		console.log(sumIncome);
-		console.log(sumBills);
+		if (this.props.financeData.income) {
+			financeData = this.props.financeData.income;
 
-		if (this.props.reveneuData.income) {
-			revenueData = this.props.reveneuData.income;
-
-			revenueData.map(data => {
+			financeData.map(data => {
 				return (sumIncome += data.amount);
 			});
 
-			reveneuTableIncome = revenueData
+			financeDataIncome = financeData
 
 				.sort((a, b) => {
 					if (a.date < b.date) {
@@ -46,7 +43,7 @@ class Menu extends React.Component {
 				.slice(0, 2)
 				.map(data => {
 					return (
-						<ReveneuTableDisplay
+						<FinanceSummaryItem
 							amount={data.amount}
 							reason={data.reason}
 							date={data.date}
@@ -55,13 +52,13 @@ class Menu extends React.Component {
 					);
 				});
 		}
-		if (this.props.reveneuData.bills) {
-			revenueData = this.props.reveneuData.bills;
-			revenueData.map(data => {
+		if (this.props.financeData.bills) {
+			financeData = this.props.financeData.bills;
+			financeData.map(data => {
 				return (sumBills += data.amount);
 			});
 
-			reveneuTableBills = revenueData
+			financeDataBills = financeData
 
 				.sort((a, b) => {
 					if (a.amount < b.amount) {
@@ -75,7 +72,7 @@ class Menu extends React.Component {
 				.slice(0, 2)
 				.map(data => {
 					return (
-						<ReveneuTableDisplay
+						<FinanceSummaryItem
 							amount={data.amount}
 							reason={data.reason}
 							date={data.date}
@@ -101,11 +98,11 @@ class Menu extends React.Component {
 				<div className={classes.financeTable}>
 					<div className={classes.incomeTable}>
 						<h3>Einkommen</h3>
-						{reveneuTableIncome}
+						{financeDataIncome}
 					</div>
 					<div className={classes.billsTable}>
 						<h3>Ausgaben</h3>
-						{reveneuTableBills}
+						{financeDataBills}
 					</div>
 				</div>
 				<ProgressBar income={sumIncome} bills={sumBills} />
@@ -117,7 +114,7 @@ class Menu extends React.Component {
 const mapStateToProp = (state, ownProps) => {
 	return {
 		loggedIn: state.loggedIn,
-		reveneuData: state.reveneuData,
+		financeData: state.financeData,
 	};
 };
 

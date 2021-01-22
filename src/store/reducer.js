@@ -4,7 +4,7 @@ const initialState = {
 	loginState: false,
 	id: '',
 	auth: false,
-	reveneuData: {},
+	financeData: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,8 +22,8 @@ const reducer = (state = initialState, action) => {
 				return {
 					...state,
 
-					reveneuData: {
-						income: state.reveneuData.income,
+					financeData: {
+						income: state.financeData.income,
 						bills: action.data.bills,
 					},
 				};
@@ -31,9 +31,9 @@ const reducer = (state = initialState, action) => {
 				return {
 					...state,
 
-					reveneuData: {
+					financeData: {
 						income: action.data.income,
-						bills: state.reveneuData.bills,
+						bills: state.financeData.bills,
 					},
 				};
 			}
@@ -45,8 +45,8 @@ const reducer = (state = initialState, action) => {
 				return {
 					...state,
 
-					reveneuData: {
-						income: state.reveneuData.income,
+					financeData: {
+						income: state.financeData.income,
 						bills: action.filteredFinance,
 					},
 				};
@@ -54,9 +54,9 @@ const reducer = (state = initialState, action) => {
 				return {
 					...state,
 
-					reveneuData: {
+					financeData: {
 						income: action.filteredFinance,
-						bills: state.reveneuData.bills,
+						bills: state.financeData.bills,
 					},
 				};
 			}

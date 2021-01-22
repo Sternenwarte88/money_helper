@@ -1,7 +1,7 @@
 import trash from '../../img/icons/trash-alt-regular.svg';
-import classes from './reveneuTable.module.css';
+import classes from './financeSummaryItem.module.css';
 
-const reveneuTableDisplay = props => {
+const financeSummaryItem = props => {
 	let trashCan;
 
 	if (props.clicked) {
@@ -22,4 +22,4 @@ const reveneuTableDisplay = props => {
 	);
 };
 
-export default reveneuTableDisplay;
+export default financeSummaryItem;
