@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../axiosDefault';
 import Cookies from 'universal-cookie';
 import * as actionCreators from './actionCreators';
 
@@ -35,7 +35,6 @@ export const login = (loginInformation, props) => {
 				return data;
 			})
 			.then(data => {
-				console.log(data);
 				cookies.set('loginState', data.data.token);
 				cookies.set('id', data.data.id);
 			})

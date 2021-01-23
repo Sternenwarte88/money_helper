@@ -47,7 +47,6 @@ export const deleteHandler = (itemID, financeType, oldState) => {
 				},
 			})
 			.then(res => {
-				console.log(res);
 				if (res.status === 200) {
 					let filteredFinance = oldState.filter(
 						obj => obj._id !== itemID.toString()

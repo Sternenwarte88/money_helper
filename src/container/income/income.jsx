@@ -26,6 +26,8 @@ class Income extends Component {
 
 	//* Betrag in die Datenbank eintragen
 
+	//TODO Merge billsHandler and incomeHandler together
+
 	incomeHandler = () => {
 		axios
 			.post('http://localhost:28010/mh/income', {

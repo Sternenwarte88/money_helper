@@ -7,10 +7,10 @@ import * as actionCreators from '../../store/actions/actionCreators';
 import FinanceSummaryItem from './../../components/reveneutable/financeSummaryItem';
 
 // TODO: Make overview
-// TODO: Display a little overview of 3 items from each income and bills
 // TODO: Style everything
 
 class Menu extends React.Component {
+	//TODO Merge getFinanceData together
 	componentDidMount() {
 		this.props.getFinanceData('income');
 		this.props.getFinanceData('bills');
@@ -40,7 +40,7 @@ class Menu extends React.Component {
 					}
 					return 0;
 				})
-				.slice(0, 2)
+				.slice(0, 3)
 				.map(data => {
 					return (
 						<FinanceSummaryItem
@@ -69,7 +69,7 @@ class Menu extends React.Component {
 					}
 					return 0;
 				})
-				.slice(0, 2)
+				.slice(0, 3)
 				.map(data => {
 					return (
 						<FinanceSummaryItem
