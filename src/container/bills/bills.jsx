@@ -89,7 +89,7 @@ class bills extends Component {
 							date={data.date}
 							key={data._id}
 							clicked={(itemID, financeType, oldState) => {
-								this.props.deleteBills(
+								this.props.deleteFinanceItem(
 									data._id,
 									'bills',
 									this.props.financeData.bills
@@ -206,7 +206,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		getFinanceData: financeType =>
 			dispatch(actionCreators.financeActions.getFinance(financeType)),
-		deleteBills: (itemID, financeType, oldState) =>
+		deleteFinanceItem: (itemID, financeType, oldState) =>
 			dispatch(
 				actionCreators.financeActions.deleteHandler(
 					itemID,

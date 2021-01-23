@@ -3,13 +3,7 @@ import * as actionCreators from './actionCreators';
 
 export const getFinance = financeType => {
 	let financeData = '';
-	let url = '';
-
-	if (financeType === 'bills') {
-		url = '/getBills';
-	} else if (financeType === 'income') {
-		url = '/getIncome';
-	}
+	let url = '/getFinanceData';
 
 	return dispatch => {
 		axios
@@ -42,16 +36,13 @@ const getfinance = (financeType, data) => {
 };
 
 export const deleteHandler = (itemID, financeType, oldState) => {
-	let url = '';
-	if (financeType === 'bills') {
-		url = '/deleteBills';
-	} else if (financeType === 'income') {
-		url = '/deleteIncome';
-	}
+	let url = '/deleteFinanceData';
+
 	return dispatch => {
 		axios
 			.delete(url, {
 				params: {
+					financeType: financeType,
 					itemID: itemID,
 				},
 			})
