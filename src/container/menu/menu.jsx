@@ -12,8 +12,7 @@ import FinanceSummaryItem from './../../components/reveneutable/financeSummaryIt
 class Menu extends React.Component {
 	//TODO Merge getFinanceData together
 	componentDidMount() {
-		this.props.getFinanceData('income');
-		this.props.getFinanceData('bills');
+		this.props.getFinanceData('completeFinanceData');
 	}
 	render() {
 		let financeData;

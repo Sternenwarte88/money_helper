@@ -1,6 +1,5 @@
 import { Component, React } from 'react';
 import { connect } from 'react-redux';
-import axios from '../../axiosDefault';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import handLeft from '../../img/icons/hand-point-left-solid.svg';
@@ -25,28 +24,6 @@ class bills extends Component {
 		this.itemsToShow = 10;
 	}
 
-	//* Betrag in die Datenbank eintragen
-
-	//TODO Merge billsHandler and incomeHandler together
-	
-	billsHandler = () => {
-		axios
-			.post('http://localhost:28010/mh/bills', {
-				amount: this.state.amount,
-				reason: this.state.reason,
-				date: new Date(this.state.date).toLocaleDateString('de-DE'),
-				id: this.props.id,
-			})
-			.then(res => {
-				console.log(res);
-				if (res.status === 200) {
-					return;
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
 
 	inputValueHandler = (event, name) => {
 		const newstate = { ...this.state, [name]: event.target.value };
@@ -188,7 +165,17 @@ class bills extends Component {
 							{this.state.date}
 						</Input>
 					</div>
-					<button className={classes.submitBtn} onClick={this.billsHandler}>
+					<button
+						className={classes.submitBtn}
+						onClick={(amount, reason, date, id, financeType) => {
+							this.props.insertFinanceData(
+								this.state.amount,
+								this.state.reason,
+								this.state.date,
+								this.state.id,
+								'bills'
+							);
+						}}>
 						Füge Ausgaben hinzu
 					</button>
 				</div>
@@ -214,6 +201,16 @@ const mapDispatchToProps = dispatch => {
 					itemID,
 					financeType,
 					oldState
+				)
+			),
+		insertFinanceData: (amount, reason, date, id, financeType) =>
+			dispatch(
+				actionCreators.financeActions.insertFinanceData(
+					amount,
+					reason,
+					date,
+					id,
+					financeType
 				)
 			),
 	};

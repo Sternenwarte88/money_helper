@@ -36,6 +36,16 @@ const reducer = (state = initialState, action) => {
 						bills: state.financeData.bills,
 					},
 				};
+			} else if (action.financeType === 'completeFinanceData') {
+				console.log(action.data);
+				return {
+					...state,
+
+					financeData: {
+						income: action.data.income,
+						bills: action.data.bills,
+					},
+				};
 			}
 			break;
 
