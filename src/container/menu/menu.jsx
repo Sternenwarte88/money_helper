@@ -5,9 +5,9 @@ import classes from './menu.module.css';
 import ProgressBar from '../../components/progressBar/progressBar';
 import * as actionCreators from '../../store/actions/actionCreators';
 import FinanceSummaryItem from './../../components/reveneutable/financeSummaryItem';
-
 // TODO: Make overview
 // TODO: Style everything
+
 
 class Menu extends React.Component {
 	//TODO Merge getFinanceData together

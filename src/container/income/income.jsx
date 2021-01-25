@@ -22,15 +22,15 @@ class Income extends Component {
 		this.page = 1;
 		this.itemsToShow = 10;
 	}
-
+	componentDidMount() {
+		this.props.getFinanceData('income');
+	}
 	inputValueHandler = (event, name) => {
 		const newstate = { ...this.state, [name]: event.target.value };
 		this.setState(newstate);
 	};
 
-	componentDidMount() {
-		this.props.getFinanceData('income');
-	}
+
 
 	render() {
 		//*	output for income, sorted and sliced for pagination

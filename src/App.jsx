@@ -7,21 +7,9 @@ import bills from './container/bills/bills';
 import Login from './container/login/login';
 import menu from './container/menu/menu';
 import Signup from './container/signup/signup';
-import axios from './axiosDefault';
 
 // TODO implement an Optionsmenu
 // TODO Implement a logout function
-// let auth = false;
-// axios
-// 	.get('/auth')
-// 	.then(data => {
-// 		if (data.data.msg === 'auth=true') {
-// 			auth = true;
-// 		}
-// 	})
-// 	.catch(err => {
-// 		console.log(err);
-// 	});
 
 class app extends Component {
 	render() {

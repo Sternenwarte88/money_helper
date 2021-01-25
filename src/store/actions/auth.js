@@ -4,22 +4,13 @@ import * as actionCreators from './actionCreators';
 
 export const login = (loginInformation, props) => {
 	const cookies = new Cookies();
+
 	return dispatch => {
 		axios
-			.post(
-				'http://localhost:28010/mh/login',
-				{
-					email: loginInformation.email,
-					password: loginInformation.password,
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: cookies.get('loginState'),
-					},
-					mode: 'cors',
-				}
-			)
+			.post('/login', {
+				email: loginInformation.email,
+				password: loginInformation.password,
+			})
 			.then(data => {
 				if (data.status === 200) {
 					const newInformation = {
@@ -28,18 +19,26 @@ export const login = (loginInformation, props) => {
 						password: '',
 						id: data.data.id,
 					};
+					cookies.set('loginState', data.data.token);
+					cookies.set('id', data.data.id);
 					dispatch(loginDatabase(newInformation));
+					return data;
 				} else {
 					console.log(data);
 				}
-				return data;
 			})
 			.then(data => {
-				cookies.set('loginState', data.data.token);
-				cookies.set('id', data.data.id);
-			})
-			.then(result => {
+				axios.interceptors.request.use(config => {
+					config.headers.authorization = data.data.token;
+					config.params = {
+						id: data.data.id,
+						financeType: 'completeFinanceData',
+					};
+					console.log(config);
+					return config;
+				});
 				props.history.push('/menu');
+				return;
 			})
 			.catch(err => {
 				const newInformation = {

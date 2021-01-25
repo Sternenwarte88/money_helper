@@ -24,15 +24,15 @@ class bills extends Component {
 		this.itemsToShow = 10;
 	}
 
+	componentDidMount() {
+		this.props.getFinanceData('bills');
+	}
 
 	inputValueHandler = (event, name) => {
 		const newstate = { ...this.state, [name]: event.target.value };
 		this.setState(newstate);
 	};
 
-	componentDidMount() {
-		this.props.getFinanceData('bills');
-	}
 	render() {
 		//*	output for bills, sorted and sliced for pagination
 
