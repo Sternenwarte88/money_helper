@@ -1,12 +1,12 @@
-import axios from '../../axiosDefault';
 import * as actionCreators from './actionCreators';
+import instance from './../../axiosDefault';
 
 export const getFinance = financeType => {
 	let financeData = '';
 	let url = '/getFinanceData';
 
 	return dispatch => {
-		axios
+		instance
 			.get(url, {
 				params: {
 					financeType: financeType,
@@ -32,7 +32,7 @@ const getfinance = (financeType, data) => {
 
 export const insertFinanceData = (amount, reason, date, id, financeType) => {
 	return dispatch => {
-		axios
+		instance
 			.post('/insertFinanceData', {
 				amount: amount,
 				reason: reason,
@@ -67,7 +67,7 @@ export const deleteHandler = (itemID, financeType, oldState) => {
 	let url = '/deleteFinanceData';
 
 	return dispatch => {
-		axios
+		instance
 			.delete(url, {
 				params: {
 					financeType: financeType,

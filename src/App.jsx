@@ -20,15 +20,15 @@ class app extends Component {
 			</Switch>
 		);
 		// if (auth) {
-			mainMenu = (
-				<Switch>
-					<Route path='/' exact component={Login} />
-					<Route path='/signup' exact component={Signup} />
-					<Route path='/menu' exact component={menu} />
-					<Route path='/income' exact component={income} />
-					<Route path='/bills' exact component={bills} />
-				</Switch>
-			);
+		mainMenu = (
+			<Switch>
+				<Route path='/' exact component={Login} />
+				<Route path='/signup' exact component={Signup} />
+				<Route path='/menu' exact component={menu} />
+				<Route path='/income' exact component={income} />
+				<Route path='/bills' exact component={bills} />
+			</Switch>
+		);
 		// }
 		return <>{mainMenu}</>;
 	}

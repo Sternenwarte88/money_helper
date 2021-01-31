@@ -1,12 +1,12 @@
-import axios from '../../axiosDefault';
 import Cookies from 'universal-cookie';
 import * as actionCreators from './actionCreators';
+import instance from './../../axiosDefault';
 
 export const login = (loginInformation, props) => {
 	const cookies = new Cookies();
 
 	return dispatch => {
-		axios
+		instance
 			.post('/login', {
 				email: loginInformation.email,
 				password: loginInformation.password,
@@ -28,15 +28,6 @@ export const login = (loginInformation, props) => {
 				}
 			})
 			.then(data => {
-				axios.interceptors.request.use(config => {
-					config.headers.authorization = data.data.token;
-					config.params = {
-						id: data.data.id,
-						financeType: 'completeFinanceData',
-					};
-					console.log(config);
-					return config;
-				});
 				props.history.push('/menu');
 				return;
 			})

@@ -1,0 +1,23 @@
+bills.jsx
+
+// TODO Style billspage
+// TODO Add repeat option for insert data
+
+income.jsx
+
+// TODO Style incomepage
+// TODO Add repeat option for insert data
+
+login.jsx
+
+// TODO: Pre-Alpha Banner
+// TODO: Loading Modal (loading circle)
+// TODO: Implement error feedback
+
+menu.jsx
+// TODO: Make overview
+
+signup.jsx
+
+// TODO Implement Password confirmation
+// TODO Send a mail for confirmation

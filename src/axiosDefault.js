@@ -13,4 +13,11 @@ const instance = axios.create({
 	params: { id: cookies.get('id') },
 });
 
+instance.interceptors.request.use(config => {
+	config.headers.authorization = cookies.get('loginState');
+
+	console.log(config);
+	return config;
+});
+
 export default instance;

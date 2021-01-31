@@ -8,212 +8,209 @@ import classes from './bills.module.css';
 import * as actionCreators from '../../store/actions/actionCreators';
 import FinanceSummaryItem from './../../components/reveneutable/financeSummaryItem';
 
-// TODO Style billspage
-// TODO Add repeat option for insert data
-
 class bills extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			amount: 0,
-			reason: '',
-			date: '',
-			id: this.props.id,
-		};
-		this.page = 1;
-		this.itemsToShow = 10;
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      amount: 0,
+      reason: '',
+      date: '',
+      id: this.props.id,
+    };
+    this.page = 1;
+    this.itemsToShow = 10;
+  }
 
-	componentDidMount() {
-		this.props.getFinanceData('bills');
-	}
+  componentDidMount() {
+    this.props.getFinanceData('bills');
+  }
 
-	inputValueHandler = (event, name) => {
-		const newstate = { ...this.state, [name]: event.target.value };
-		this.setState(newstate);
-	};
+  inputValueHandler = (event, name) => {
+    const newstate = { ...this.state, [name]: event.target.value };
+    this.setState(newstate);
+  };
 
-	render() {
-		//*	output for bills, sorted and sliced for pagination
+  render() {
+    //*	output for bills, sorted and sliced for pagination
 
-		let financeData = '';
-		let financeSummaryItem = '';
-		let firstItemPerPage = (this.page - 1) * this.itemsToShow;
-		let lastItemPerPage = this.page * this.itemsToShow;
-		let sum = 0;
+    let financeData = '';
+    let financeSummaryItem = '';
+    let firstItemPerPage = (this.page - 1) * this.itemsToShow;
+    let lastItemPerPage = this.page * this.itemsToShow;
+    let sum = 0;
 
-		if (this.props.financeData.bills) {
-			financeData = this.props.financeData.bills;
-			financeData.map(data => {
-				return (sum += data.amount);
-			});
+    if (this.props.financeData.bills) {
+      financeData = this.props.financeData.bills;
+      financeData.map(data => {
+        return (sum += data.amount);
+      });
 
-			financeSummaryItem = financeData
+      financeSummaryItem = financeData
 
-				.sort((a, b) => {
-					if (a.date < b.date) {
-						return -1;
-					}
-					if (a.date > b.date) {
-						return 1;
-					}
-					return 0;
-				})
-				.slice(firstItemPerPage, lastItemPerPage)
-				.map(data => {
-					return (
-						<FinanceSummaryItem
-							amount={data.amount}
-							reason={data.reason}
-							date={data.date}
-							key={data._id}
-							clicked={(itemID, financeType, oldState) => {
-								this.props.deleteFinanceItem(
-									data._id,
-									'bills',
-									this.props.financeData.bills
-								);
-							}}
-						/>
-					);
-				});
-		}
+        .sort((a, b) => {
+          if (a.date < b.date) {
+            return -1;
+          }
+          if (a.date > b.date) {
+            return 1;
+          }
+          return 0;
+        })
+        .slice(firstItemPerPage, lastItemPerPage)
+        .map(data => {
+          return (
+            <FinanceSummaryItem
+              amount={data.amount}
+              reason={data.reason}
+              date={data.date}
+              key={data._id}
+              clicked={(itemID, financeType, oldState) => {
+                this.props.deleteFinanceItem(
+                  data._id,
+                  'bills',
+                  this.props.financeData.bills
+                );
+              }}
+            />
+          );
+        });
+    }
 
-		let reasonHead = 'reasonHead';
-		let amountHead = 'amountHead';
-		let dateHead = 'dateHead';
-		return (
-			<>
-				<div>
-					<HeadTitle site={'Ausgaben'} />
-					<div className={classes.itemCounter}>
-						Angezeigte Elemente:
-						<select
-							name='itemsToShow'
-							id=''
-							onChange={event => {
-								this.itemsToShow = event.target.value;
-								this.props.getFinanceData();
-							}}>
-							<option value='10'>10</option>
-							<option value='25'>25</option>
-							<option value='50'>50</option>
-						</select>
-					</div>
-					<div className={classes.overview}>
-						<h2 className={reasonHead}>Zweck</h2>
-						<h2 className={amountHead}>Betrag</h2>
-						<h2 className={dateHead}>Datum</h2>
-						<div></div>
-						{financeSummaryItem}
-					</div>
-					<div>Sum = {sum} €</div>
+    let reasonHead = 'reasonHead';
+    let amountHead = 'amountHead';
+    let dateHead = 'dateHead';
+    return (
+      <>
+        <div>
+          <HeadTitle site={'Ausgaben'} />
+          <div className={classes.itemCounter}>
+            Angezeigte Elemente:
+            <select
+              name='itemsToShow'
+              id=''
+              onChange={event => {
+                this.itemsToShow = event.target.value;
+                this.props.getFinanceData();
+              }}>
+              <option value='10'>10</option>
+              <option value='25'>25</option>
+              <option value='50'>50</option>
+            </select>
+          </div>
+          <div className={classes.overview}>
+            <h2 className={reasonHead}>Zweck</h2>
+            <h2 className={amountHead}>Betrag</h2>
+            <h2 className={dateHead}>Datum</h2>
+            <div></div>
+            {financeSummaryItem}
+          </div>
+          <div>Sum = {sum} €</div>
 
-					<div className={classes.paginationControll}>
-						<div className={classes.pageBack}>
-							<img
-								src={handLeft}
-								alt=''
-								srcSet=''
-								onClick={() => {
-									this.page >= 2 ? (this.page -= 1) : (firstItemPerPage = 0);
-								}}
-							/>
-						</div>
-						<div className={classes.pageForward}>
-							<img
-								src={handRight}
-								alt=''
-								srcSet=''
-								onClick={() => {
-									financeData.length % lastItemPerPage === financeData.length
-										? (lastItemPerPage = financeData.length)
-										: (this.page += 1);
-								}}
-							/>
-						</div>
-					</div>
-					<div className={classes.form}>
-						<Input
-							class={classes.input_bills}
-							type={'number'}
-							name={this.state.amount}
-							placeholder={299.99}
-							changeValue={(event, name) => {
-								this.inputValueHandler(event, 'amount');
-							}}>
-							{this.state.amount}
-						</Input>
-						<Input
-							class={classes.input_bills}
-							type={'text'}
-							name={this.state.reason}
-							placeholder={'Wofür ist der Betrag?'}
-							changeValue={(event, name) => {
-								this.inputValueHandler(event, 'reason');
-							}}>
-							{this.state.reason}
-						</Input>
-						<Input
-							class={classes.input_bills}
-							type={'date'}
-							name={this.state.date}
-							placeholder={'dd-mm-yyyy'}
-							changeValue={(event, name) => {
-								this.inputValueHandler(event, 'date');
-							}}>
-							{this.state.date}
-						</Input>
-					</div>
-					<button
-						className={classes.submitBtn}
-						onClick={(amount, reason, date, id, financeType) => {
-							this.props.insertFinanceData(
-								this.state.amount,
-								this.state.reason,
-								this.state.date,
-								this.state.id,
-								'bills'
-							);
-						}}>
-						Füge Ausgaben hinzu
-					</button>
-				</div>
-			</>
-		);
-	}
+          <div className={classes.paginationControll}>
+            <div className={classes.pageBack}>
+              <img
+                src={handLeft}
+                alt=''
+                srcSet=''
+                onClick={() => {
+                  this.page >= 2 ? (this.page -= 1) : (firstItemPerPage = 0);
+                }}
+              />
+            </div>
+            <div className={classes.pageForward}>
+              <img
+                src={handRight}
+                alt=''
+                srcSet=''
+                onClick={() => {
+                  financeData.length % lastItemPerPage === financeData.length
+                    ? (lastItemPerPage = financeData.length)
+                    : (this.page += 1);
+                }}
+              />
+            </div>
+          </div>
+          <div className={classes.form}>
+            <Input
+              class={classes.input_bills}
+              type={'number'}
+              name={this.state.amount}
+              placeholder={299.99}
+              changeValue={(event, name) => {
+                this.inputValueHandler(event, 'amount');
+              }}>
+              {this.state.amount}
+            </Input>
+            <Input
+              class={classes.input_bills}
+              type={'text'}
+              name={this.state.reason}
+              placeholder={'Wofür ist der Betrag?'}
+              changeValue={(event, name) => {
+                this.inputValueHandler(event, 'reason');
+              }}>
+              {this.state.reason}
+            </Input>
+            <Input
+              class={classes.input_bills}
+              type={'date'}
+              name={this.state.date}
+              placeholder={'dd-mm-yyyy'}
+              changeValue={(event, name) => {
+                this.inputValueHandler(event, 'date');
+              }}>
+              {this.state.date}
+            </Input>
+          </div>
+          <button
+            className={classes.submitBtn}
+            onClick={(amount, reason, date, id, financeType) => {
+              this.props.insertFinanceData(
+                this.state.amount,
+                this.state.reason,
+                this.state.date,
+                this.state.id,
+                'bills'
+              );
+            }}>
+            Füge Ausgaben hinzu
+          </button>
+        </div>
+      </>
+    );
+  }
 }
 
 const mapStateToProps = state => {
-	return {
-		id: state.id,
-		financeData: state.financeData,
-	};
+  return {
+    id: state.id,
+    financeData: state.financeData,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
-	return {
-		getFinanceData: financeType =>
-			dispatch(actionCreators.financeActions.getFinance(financeType)),
-		deleteFinanceItem: (itemID, financeType, oldState) =>
-			dispatch(
-				actionCreators.financeActions.deleteHandler(
-					itemID,
-					financeType,
-					oldState
-				)
-			),
-		insertFinanceData: (amount, reason, date, id, financeType) =>
-			dispatch(
-				actionCreators.financeActions.insertFinanceData(
-					amount,
-					reason,
-					date,
-					id,
-					financeType
-				)
-			),
-	};
+  return {
+    getFinanceData: financeType =>
+      dispatch(actionCreators.financeActions.getFinance(financeType)),
+    deleteFinanceItem: (itemID, financeType, oldState) =>
+      dispatch(
+        actionCreators.financeActions.deleteHandler(
+          itemID,
+          financeType,
+          oldState
+        )
+      ),
+    insertFinanceData: (amount, reason, date, id, financeType) =>
+      dispatch(
+        actionCreators.financeActions.insertFinanceData(
+          amount,
+          reason,
+          date,
+          id,
+          financeType
+        )
+      ),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(bills);
