@@ -7,7 +7,6 @@ const Input = props => {
 	if (!isValid) {
 		inputClasses.push(classes.invalid);
 	}
-	console.log(isValid);
 	return (
 		<input
 			className={classes.input + ' ' + inputClasses.join(' ')}

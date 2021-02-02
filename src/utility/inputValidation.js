@@ -20,7 +20,6 @@ export const validPassword = value => {
 
 export const confirmPassword = (pwd, confirmpwd) => {
 	let isValid = false;
-	console.log(pwd + ' ' + confirmpwd);
 	if (pwd === confirmpwd) {
 		isValid = true;
 	}

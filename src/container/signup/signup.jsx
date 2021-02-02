@@ -9,7 +9,6 @@ import {
 } from '../../utility/inputValidation';
 import classes from '../signup/signup.module.css';
 
-
 class signUp extends Component {
 	state = {
 		email: ' ',
@@ -19,7 +18,6 @@ class signUp extends Component {
 	inputChangedHandler = (event, name) => {
 		const newState = { ...this.state, [name]: event.target.value };
 		this.setState(newState);
-		console.log(this.state);
 	};
 
 	loginHandler = () => {
@@ -84,6 +82,7 @@ class signUp extends Component {
 							}>
 							{this.state.password}
 						</Input>
+						<label htmlFor='confirmPWD'>Bestätige dein Passwort</label>
 						<Input
 							class={classes.input}
 							isValid={confirmPassword(
