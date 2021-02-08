@@ -5,6 +5,7 @@ import Input from '../../components/UI/Input';
 import * as actionCreators from '../../store/actions/actionCreators';
 import classes from './login.module.css';
 import { validMail, validPassword } from '../../utility/inputValidation';
+import Error from '../../utility/error';
 
 class Login extends Component {
 	state = {
@@ -26,9 +27,11 @@ class Login extends Component {
 	render() {
 		const email = 'email';
 		const password = 'password';
+
 		return (
 			<div className={classes.login}>
 				<HeadTitle site={'Login'} />
+
 				<div className={classes.form}>
 					<label htmlFor={email}>Deine E-Mail: </label>
 					<Input
@@ -55,6 +58,7 @@ class Login extends Component {
 						}>
 						{this.state.password}
 					</Input>
+					<Error/>
 					<div>
 						<button
 							className={classes.loginBtn}
@@ -75,9 +79,10 @@ class Login extends Component {
 	}
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
 	return {
 		loggedIn: state.loginState,
+		error: state.error,
 	};
 };
 

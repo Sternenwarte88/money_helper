@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
@@ -8,6 +7,9 @@ import {
 	confirmPassword,
 } from '../../utility/inputValidation';
 import classes from '../signup/signup.module.css';
+import Error from '../../utility/error';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions/actionCreators';
 
 class signUp extends Component {
 	state = {
@@ -24,35 +26,19 @@ class signUp extends Component {
 		this.props.history.push('/');
 	};
 
-	signUpHandler = () => {
-		axios
-			.post(
-				'http://localhost:28010/mh/users',
-				{
-					email: this.state.email,
-					password: this.state.password,
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					mode: 'cors',
-				}
-			)
-			.then(res => {
-				if (res.data.msg === 'User created!') {
-					this.props.history.push('/');
-				}
-			})
-			.catch(err => {
-				console.log(err.msg);
-			});
-	};
-
 	render() {
 		const email = 'email';
 		const password = 'password';
 		const confirmPWD = 'confirmPWD';
+
+		let disabled = '';
+
+		if (
+			this.state.password !== this.state.confirmPWD ||
+			this.state.password.length <= 0
+		) {
+			disabled = 'disabled';
+		}
 
 		return (
 			<>
@@ -98,8 +84,16 @@ class signUp extends Component {
 							}>
 							{this.state.password}
 						</Input>
+						<Error />
 						<div>
-							<button onClick={this.signUpHandler}> Erstelle Account </button>
+							<button
+								disabled={disabled}
+								onClick={(state, props) => {
+									this.props.signUp(this.state, this.props);
+								}}>
+								{' '}
+								Erstelle Account{' '}
+							</button>
 							<button onClick={this.loginHandler}>
 								Hast Du schon einen Account?
 							</button>
@@ -111,4 +105,18 @@ class signUp extends Component {
 	}
 }
 
-export default signUp;
+const mapStateToProps = state => {
+	return {
+		error: state.error,
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		signUp: (state, props) => {
+			dispatch(actionCreators.authActions.signUpHandler(state, props));
+		},
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(signUp);

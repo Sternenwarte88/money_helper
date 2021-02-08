@@ -20,7 +20,8 @@ input {
 }
 
 h1,
-h2 {
+h2,
+h3 {
 	padding: 8px;
 	margin: 0;
 	font-family: 'Playfair Display', serif;

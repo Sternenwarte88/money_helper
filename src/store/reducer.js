@@ -8,7 +8,6 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-	console.log(action);
 	switch (action.type) {
 		case actionTypes.LOGIN:
 			return {
@@ -37,7 +36,6 @@ const reducer = (state = initialState, action) => {
 					},
 				};
 			} else if (action.financeType === 'completeFinanceData') {
-				console.log(action.data);
 				return {
 					...state,
 
@@ -50,7 +48,6 @@ const reducer = (state = initialState, action) => {
 			break;
 
 		case actionTypes.DELETE_ITEM:
-			console.log(action);
 			if (action.financeType === 'bills') {
 				return {
 					...state,
@@ -71,6 +68,15 @@ const reducer = (state = initialState, action) => {
 				};
 			}
 			break;
+		case actionTypes.ERROR:
+			console.log(action.error);
+			return {
+				...state,
+				error: {
+					status: action.error.status,
+					message: action.error.message,
+				},
+			};
 
 		default:
 			console.log('failed');

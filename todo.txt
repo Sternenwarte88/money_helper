@@ -19,5 +19,4 @@ menu.jsx
 
 signup.jsx
 
-// TODO Implement Password confirmation
 // TODO Send a mail for confirmation

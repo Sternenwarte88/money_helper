@@ -12,7 +12,7 @@ export const login = (loginInformation, props) => {
 				password: loginInformation.password,
 			})
 			.then(data => {
-				if (data.status === 200) {
+				if (data.status === 200 && data.msg === 'accepted') {
 					const newInformation = {
 						...loginInformation,
 						loggedIn: true,
@@ -21,30 +21,72 @@ export const login = (loginInformation, props) => {
 					};
 					cookies.set('loginState', data.data.token);
 					cookies.set('id', data.data.id);
-					dispatch(loginDatabase(newInformation));
-					return data;
+					dispatch(loginData(newInformation));
+					props.history.push('/menu');
+					return;
 				} else {
-					console.log(data);
+					const errorData = {
+						status: data.data.status,
+						message: data.data.msg,
+					};
+					dispatch(error(errorData));
 				}
-			})
-			.then(data => {
-				props.history.push('/menu');
-				return;
 			})
 			.catch(err => {
 				const newInformation = {
 					...loginInformation,
 					loggedIn: false,
 				};
-				dispatch(loginDatabase(newInformation));
+				dispatch(loginData(newInformation));
+			});
+	};
+};
+
+export const signUpHandler = (signUpData, props) => {
+	return dispatch => {
+		instance
+			.post(
+				'/users',
+				{
+					email: signUpData.email,
+					password: signUpData.password,
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					mode: 'cors',
+				}
+			)
+			.then(res => {
+				console.log(res);
+				if (res.data.msg === 'Benutzer erstellt!') {
+					props.history.push('/');
+				} else {
+					const errorData = {
+						...signUpData,
+						status: res.data.status,
+						message: res.data.msg.errors[0].msg,
+					};
+					dispatch(error(errorData));
+				}
+			})
+			.catch(err => {
 				console.log(err);
 			});
 	};
 };
 
-const loginDatabase = loginInformation => {
+const loginData = loginInformation => {
 	return {
 		type: actionCreators.LOGIN,
 		loginInformation: loginInformation,
+	};
+};
+
+const error = errorData => {
+	return {
+		type: actionCreators.ERROR,
+		error: errorData,
 	};
 };
