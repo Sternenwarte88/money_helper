@@ -4,9 +4,10 @@ import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import handLeft from '../../img/icons/hand-point-left-solid.svg';
 import handRight from '../../img/icons/hand-point-right-regular.svg';
-import classes from './bills.module.css';
 import * as actionCreators from '../../store/actions/actionCreators';
 import FinanceSummaryItem from './../../components/reveneutable/financeSummaryItem';
+import Error from './../../utility/error';
+import classes from './bills.module.css';
 
 class bills extends Component {
 	constructor(props) {
@@ -58,11 +59,13 @@ class bills extends Component {
 				})
 				.slice(firstItemPerPage, lastItemPerPage)
 				.map(data => {
+					let date = new Date(data.date);
+					console.log(data);
 					return (
 						<FinanceSummaryItem
 							amount={data.amount}
 							reason={data.reason}
-							date={data.date}
+							date={date.toLocaleDateString('de-DE')}
 							key={data._id}
 							clicked={(itemID, financeType, oldState) => {
 								this.props.deleteFinanceItem(
@@ -90,7 +93,7 @@ class bills extends Component {
 							id=''
 							onChange={event => {
 								this.itemsToShow = event.target.value;
-								this.props.getFinanceData();
+								this.props.getFinanceData('bills');
 							}}>
 							<option value='10'>10</option>
 							<option value='25'>25</option>
@@ -114,6 +117,7 @@ class bills extends Component {
 								srcSet=''
 								onClick={() => {
 									this.page >= 2 ? (this.page -= 1) : (firstItemPerPage = 0);
+									this.props.getFinanceData('bills');
 								}}
 							/>
 						</div>
@@ -126,6 +130,7 @@ class bills extends Component {
 									financeData.length % lastItemPerPage === financeData.length
 										? (lastItemPerPage = financeData.length)
 										: (this.page += 1);
+									this.props.getFinanceData('bills');
 								}}
 							/>
 						</div>
@@ -165,6 +170,7 @@ class bills extends Component {
 							{this.state.date}
 						</Input>
 					</div>
+					<Error />
 					<button
 						className={classes.submitBtn}
 						onClick={(amount, reason, date, id, financeType) => {

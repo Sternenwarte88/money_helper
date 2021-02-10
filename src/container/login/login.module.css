@@ -1,3 +1,10 @@
+#root {
+	overflow: hidden;
+}
+body {
+	overflow: hidden;
+}
+
 .login {
 	text-align: center;
 }
@@ -14,4 +21,21 @@
 	width: 50%;
 	margin: 18px;
 	padding: 5px 0px;
+}
+
+.banner {
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
+}
+
+.banner_box {
+	position: absolute;
+	width: 100%;
+	background-color: yellow;
+	transform: rotate(-30deg);
+	top: 45%;
+	right: -28%;
 }

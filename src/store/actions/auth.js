@@ -11,26 +11,30 @@ export const login = (loginInformation, props) => {
 				email: loginInformation.email,
 				password: loginInformation.password,
 			})
-			.then(data => {
-				if (data.status === 200 && data.msg === 'accepted') {
+			.then(res => {
+				console.log(res);
+				if (res.status === 200 && res.data.msg === 'accepted') {
 					const newInformation = {
 						...loginInformation,
 						loggedIn: true,
 						password: '',
-						id: data.data.id,
+						id: res.data.id,
 					};
-					cookies.set('loginState', data.data.token);
-					cookies.set('id', data.data.id);
+					cookies.set('loginState', res.data.token);
+					cookies.set('id', res.data.id);
 					dispatch(loginData(newInformation));
-					props.history.push('/menu');
-					return;
+
+					return res;
 				} else {
 					const errorData = {
-						status: data.data.status,
-						message: data.data.msg,
+						status: res.data.status,
+						message: res.data.msg,
 					};
 					dispatch(error(errorData));
 				}
+			})
+			.then(res => {
+				props.history.push('/menu');
 			})
 			.catch(err => {
 				const newInformation = {
@@ -59,7 +63,6 @@ export const signUpHandler = (signUpData, props) => {
 				}
 			)
 			.then(res => {
-				console.log(res);
 				if (res.data.msg === 'Benutzer erstellt!') {
 					props.history.push('/');
 				} else {

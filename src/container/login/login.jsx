@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import * as actionCreators from '../../store/actions/actionCreators';
-import classes from './login.module.css';
-import { validMail, validPassword } from '../../utility/inputValidation';
 import Error from '../../utility/error';
+import { validMail, validPassword } from '../../utility/inputValidation';
+import classes from './login.module.css';
 
 class Login extends Component {
 	state = {
@@ -58,7 +58,7 @@ class Login extends Component {
 						}>
 						{this.state.password}
 					</Input>
-					<Error/>
+					<Error />
 					<div>
 						<button
 							className={classes.loginBtn}
@@ -73,6 +73,12 @@ class Login extends Component {
 							Noch keinen Account?
 						</button>
 					</div>
+
+					<div className={classes.banner}>
+						<div className={classes.banner_box}>
+							<p className={classes.banner_text}>Pre Alpha v 0.1</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		);
@@ -83,6 +89,7 @@ const mapStateToProps = state => {
 	return {
 		loggedIn: state.loginState,
 		error: state.error,
+		id: state.id,
 	};
 };
 

@@ -10,12 +10,12 @@ const instance = axios.create({
 		// Authorization: cookies.get('loginState'),
 	},
 	mode: 'cors',
-	params: { id: cookies.get('id') },
+	// params: { id: cookies.get('id') },
 });
 
 instance.interceptors.request.use(config => {
 	config.headers.authorization = cookies.get('loginState');
-
+	config.params = { ...config.params, id: cookies.get('id') };
 	console.log(config);
 	return config;
 });

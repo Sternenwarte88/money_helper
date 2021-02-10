@@ -27,3 +27,7 @@
 .backBtn:hover {
 	cursor: pointer;
 }
+
+.conten {
+	overflow: hidden;
+}

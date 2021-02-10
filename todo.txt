@@ -10,9 +10,7 @@ income.jsx
 
 login.jsx
 
-// TODO: Pre-Alpha Banner
 // TODO: Loading Modal (loading circle)
-// TODO: Implement error feedback
 
 menu.jsx
 // TODO: Make overview

@@ -1,12 +1,14 @@
 import { Component, React } from 'react';
 import { connect } from 'react-redux';
+import FinanceSummaryItem from '../../components/reveneutable/financeSummaryItem';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import handLeft from '../../img/icons/hand-point-left-solid.svg';
 import handRight from '../../img/icons/hand-point-right-regular.svg';
-import classes from './income.module.css';
 import * as actionCreators from '../../store/actions/actionCreators';
-import FinanceSummaryItem from '../../components/reveneutable/financeSummaryItem';
+import Error from './../../utility/error';
+import classes from './income.module.css';
+
 
 class Income extends Component {
 	constructor(props) {
@@ -56,11 +58,12 @@ class Income extends Component {
 				})
 				.slice(firstItemPerPage, lastItemPerPage)
 				.map(data => {
+					let date = new Date(data.date);
 					return (
 						<FinanceSummaryItem
 							amount={data.amount}
 							reason={data.reason}
-							date={data.date}
+							date={date.toLocaleDateString('de-DE')}
 							key={data._id}
 							clicked={(itemID, financeType, oldState) => {
 								this.props.deleteFinanceItem(
@@ -147,7 +150,7 @@ class Income extends Component {
 							type={'text'}
 							isValid={true}
 							name={this.state.reason}
-							placeholder={'Wofür ist der Betrag?'}
+							placeholder={'Zweck'}
 							changeValue={(event, name) => {
 								this.inputValueHandler(event, 'reason');
 							}}>
@@ -158,13 +161,14 @@ class Income extends Component {
 							type={'date'}
 							isValid={true}
 							name={this.state.date}
-							placeholder={'dd-mm-yyyy'}
+							placeholder={'Datum'}
 							changeValue={(event, name) => {
 								this.inputValueHandler(event, 'date');
 							}}>
 							{this.state.date}
 						</Input>
 					</div>
+					<Error />
 					<button
 						className={classes.submitBtn}
 						onClick={(amount, reason, date, id, financeType) => {

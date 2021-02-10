@@ -47,6 +47,20 @@ const reducer = (state = initialState, action) => {
 			}
 			break;
 
+		case actionTypes.INSERT_FINANCE:
+			const financeType = action.financeType;
+			console.log(action);
+			return {
+				...state,
+				financeData: {
+					[financeType]: {
+						amount: action.newFinanceData.amount,
+						reason: action.newFinanceData.reason,
+						date: action.newFinanceData.date,
+					},
+				},
+			};
+
 		case actionTypes.DELETE_ITEM:
 			if (action.financeType === 'bills') {
 				return {
@@ -69,7 +83,6 @@ const reducer = (state = initialState, action) => {
 			}
 			break;
 		case actionTypes.ERROR:
-			console.log(action.error);
 			return {
 				...state,
 				error: {
@@ -79,6 +92,7 @@ const reducer = (state = initialState, action) => {
 			};
 
 		default:
+			console.log(action);
 			console.log('failed');
 			return state;
 	}
