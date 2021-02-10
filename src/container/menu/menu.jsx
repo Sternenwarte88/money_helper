@@ -38,11 +38,12 @@ class Menu extends React.Component {
 				})
 				.slice(0, 3)
 				.map(data => {
+					let date = new Date(data.date);
 					return (
 						<FinanceSummaryItem
 							amount={data.amount}
 							reason={data.reason}
-							date={data.date}
+							date={date.toLocaleDateString('de-DE')}
 							key={data._id}
 						/>
 					);
@@ -67,11 +68,12 @@ class Menu extends React.Component {
 				})
 				.slice(0, 3)
 				.map(data => {
+					let date = new Date(data.date);
 					return (
 						<FinanceSummaryItem
 							amount={data.amount}
 							reason={data.reason}
-							date={data.date}
+							date={date.toLocaleDateString('de-DE')}
 							key={data._id}
 						/>
 					);

@@ -1,15 +1,15 @@
 import { Component, React } from 'react';
 import { connect } from 'react-redux';
+import FinanceSummaryItem from '../../components/reveneutable/financeSummaryItem';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import handLeft from '../../img/icons/hand-point-left-solid.svg';
 import handRight from '../../img/icons/hand-point-right-regular.svg';
 import * as actionCreators from '../../store/actions/actionCreators';
-import FinanceSummaryItem from './../../components/reveneutable/financeSummaryItem';
-import Error from './../../utility/error';
-import classes from './bills.module.css';
+import Error from '../../utility/error';
+import classes from './finance.module.css';
 
-class bills extends Component {
+class Income extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -20,19 +20,33 @@ class bills extends Component {
 		};
 		this.page = 1;
 		this.itemsToShow = 10;
+		this.financeType = '';
 	}
 
 	componentDidMount() {
-		this.props.getFinanceData('bills');
+		if (this.props.location.pathname === '/income') {
+			this.financeType = 'income';
+		}
+		if (this.props.location.pathname === '/bills') {
+			this.financeType = 'bills';
+		}
+		this.props.getFinanceData(this.financeType);
 	}
-
 	inputValueHandler = (event, name) => {
 		const newstate = { ...this.state, [name]: event.target.value };
 		this.setState(newstate);
 	};
 
 	render() {
-		//*	output for bills, sorted and sliced for pagination
+		//*	output for income, sorted and sliced for pagination
+
+		let translatedFinanceType = '';
+		if (this.financeType === 'income') {
+			translatedFinanceType = 'Einnahmen';
+		}
+		if (this.financeType === 'bills') {
+			translatedFinanceType = 'Ausgaben';
+		}
 
 		let financeData = '';
 		let financeSummaryItem = '';
@@ -40,8 +54,12 @@ class bills extends Component {
 		let lastItemPerPage = this.page * this.itemsToShow;
 		let sum = 0;
 
-		if (this.props.financeData.bills) {
+		if (this.financeType === 'income') {
+			financeData = this.props.financeData.income;
+		} else {
 			financeData = this.props.financeData.bills;
+		}
+		if (financeData) {
 			financeData.map(data => {
 				return (sum += data.amount);
 			});
@@ -60,7 +78,7 @@ class bills extends Component {
 				.slice(firstItemPerPage, lastItemPerPage)
 				.map(data => {
 					let date = new Date(data.date);
-					console.log(data);
+					console.log(data.date);
 					return (
 						<FinanceSummaryItem
 							amount={data.amount}
@@ -70,8 +88,8 @@ class bills extends Component {
 							clicked={(itemID, financeType, oldState) => {
 								this.props.deleteFinanceItem(
 									data._id,
-									'bills',
-									this.props.financeData.bills
+									this.financeType,
+									this.props.financeData.income
 								);
 							}}
 						/>
@@ -85,15 +103,15 @@ class bills extends Component {
 		return (
 			<>
 				<div>
-					<HeadTitle site={'Ausgaben'} />
+					<HeadTitle site={translatedFinanceType} />
 					<div className={classes.itemCounter}>
 						Angezeigte Elemente:
 						<select
 							name='itemsToShow'
 							id=''
 							onChange={event => {
-								this.itemsToShow = event.target.value;
-								this.props.getFinanceData('bills');
+								this.items = event.target.value;
+								this.props.getFinanceData(this.financeType);
 							}}>
 							<option value='10'>10</option>
 							<option value='25'>25</option>
@@ -117,7 +135,7 @@ class bills extends Component {
 								srcSet=''
 								onClick={() => {
 									this.page >= 2 ? (this.page -= 1) : (firstItemPerPage = 0);
-									this.props.getFinanceData('bills');
+									this.props.getFinanceData(this.financeType);
 								}}
 							/>
 						</div>
@@ -130,14 +148,14 @@ class bills extends Component {
 									financeData.length % lastItemPerPage === financeData.length
 										? (lastItemPerPage = financeData.length)
 										: (this.page += 1);
-									this.props.getFinanceData('bills');
+									this.props.getFinanceData(this.financeType);
 								}}
 							/>
 						</div>
 					</div>
 					<div className={classes.form}>
 						<Input
-							class={classes.input_bills}
+							class={classes.input_income}
 							type={'number'}
 							isValid={true}
 							name={this.state.amount}
@@ -148,22 +166,22 @@ class bills extends Component {
 							{this.state.amount}
 						</Input>
 						<Input
-							class={classes.input_bills}
+							class={classes.input_income}
 							type={'text'}
 							isValid={true}
 							name={this.state.reason}
-							placeholder={'Wofür ist der Betrag?'}
+							placeholder={'Zweck'}
 							changeValue={(event, name) => {
 								this.inputValueHandler(event, 'reason');
 							}}>
 							{this.state.reason}
 						</Input>
 						<Input
-							class={classes.input_bills}
+							class={classes.input_income}
 							type={'date'}
 							isValid={true}
 							name={this.state.date}
-							placeholder={'dd-mm-yyyy'}
+							placeholder={'Datum'}
 							changeValue={(event, name) => {
 								this.inputValueHandler(event, 'date');
 							}}>
@@ -179,10 +197,10 @@ class bills extends Component {
 								this.state.reason,
 								this.state.date,
 								this.state.id,
-								'bills'
+								this.financeType
 							);
 						}}>
-						Füge Ausgaben hinzu
+						Füge {translatedFinanceType} hinzu
 					</button>
 				</div>
 			</>
@@ -222,4 +240,4 @@ const mapDispatchToProps = dispatch => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(bills);
+export default connect(mapStateToProps, mapDispatchToProps)(Income);
