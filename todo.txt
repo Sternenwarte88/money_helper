@@ -1,11 +1,4 @@
-bills.jsx
-
-// TODO Style billspage
-// TODO Add repeat option for insert data
-
-income.jsx
-
-// TODO Style incomepage
+finance.jsx
 // TODO Add repeat option for insert data
 
 login.jsx

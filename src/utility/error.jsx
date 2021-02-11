@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 
 const Error = props => {
 	let errorHandler = '';
-
+	
 	if (props.error) {
+		
 		errorHandler = <ErrorComponent errorMessage={props.error.message} />;
 	} else {
 		errorHandler = '';

@@ -52,7 +52,8 @@ export const insertFinanceData = (amount, reason, date, id, financeType) => {
 			.then(res => {
 				console.log(res);
 				if (res.data.msg === 'accepted') {
-					console.log(res);
+					let errorData = '';
+					dispatch(error(errorData));
 				} else {
 					const errorData = {
 						status: res.data.status,
