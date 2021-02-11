@@ -6,6 +6,7 @@ export const login = (loginInformation, props) => {
 	const cookies = new Cookies();
 
 	return dispatch => {
+		dispatch(loading(true));
 		instance
 			.post('/login', {
 				email: loginInformation.email,
@@ -30,8 +31,12 @@ export const login = (loginInformation, props) => {
 						status: res.data.status,
 						message: res.data.msg,
 					};
-					dispatch(error(errorData));
+					dispatch( error( errorData ) );
 				}
+			})
+			.then(res => {
+				dispatch(loading(false));
+				return res;
 			})
 			.then(res => {
 				props.history.push('/menu');
@@ -48,6 +53,7 @@ export const login = (loginInformation, props) => {
 
 export const signUpHandler = (signUpData, props) => {
 	return dispatch => {
+		dispatch(loading(true));
 		instance
 			.post(
 				'/users',
@@ -64,6 +70,7 @@ export const signUpHandler = (signUpData, props) => {
 			)
 			.then(res => {
 				if (res.data.msg === 'Benutzer erstellt!') {
+					dispatch(loading(false));
 					props.history.push('/');
 				} else {
 					const errorData = {
@@ -71,6 +78,7 @@ export const signUpHandler = (signUpData, props) => {
 						status: res.data.status,
 						message: res.data.msg.errors[0].msg,
 					};
+					dispatch(loading(false));
 					dispatch(error(errorData));
 				}
 			})
@@ -91,5 +99,12 @@ const error = errorData => {
 	return {
 		type: actionCreators.ERROR,
 		error: errorData,
+	};
+};
+
+const loading = loading => {
+	return {
+		type: actionCreators.LOADING,
+		loading: loading,
 	};
 };

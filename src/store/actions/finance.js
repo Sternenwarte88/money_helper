@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const getFinanceData = (financeType, dispatch) => {
+	dispatch(loading(true));
 	instance
 		.get('/getFinanceData', {
 			params: {
@@ -17,8 +18,10 @@ const getFinanceData = (financeType, dispatch) => {
 			let financeData = response.data.finance;
 			let data = financeData;
 			dispatch(getfinance(financeType, data));
+			dispatch(loading(false));
 		})
 		.catch(err => {
+			dispatch(loading(false));
 			console.log(err);
 		});
 };
@@ -41,6 +44,7 @@ const getfinance = (financeType, data) => {
 
 export const insertFinanceData = (amount, reason, date, id, financeType) => {
 	return dispatch => {
+		dispatch(loading(true));
 		instance
 			.post('/insertFinanceData', {
 				amount: amount,
@@ -61,10 +65,12 @@ export const insertFinanceData = (amount, reason, date, id, financeType) => {
 					};
 					dispatch(error(errorData));
 				}
+
 				return financeType;
 			})
 			.then(financeType => {
 				getFinanceData(financeType, dispatch);
+				dispatch(loading(false));
 			})
 			.catch(err => {
 				console.log(err);
@@ -83,6 +89,7 @@ export const deleteHandler = (itemID, financeType, oldState) => {
 	let url = '/deleteFinanceData';
 
 	return dispatch => {
+		dispatch(loading(true));
 		instance
 			.delete(url, {
 				params: {
@@ -96,9 +103,11 @@ export const deleteHandler = (itemID, financeType, oldState) => {
 						obj => obj._id !== itemID.toString()
 					);
 					dispatch(dispatchFilteredFinance(financeType, filteredFinance));
+					dispatch(loading(false));
 				}
 			})
 			.catch(err => {
+				dispatch(loading(false));
 				console.log(err);
 			});
 	};
@@ -116,5 +125,12 @@ const error = errorData => {
 	return {
 		type: actionCreators.ERROR,
 		error: errorData,
+	};
+};
+
+const loading = loading => {
+	return {
+		type: actionCreators.LOADING,
+		loading: loading,
 	};
 };

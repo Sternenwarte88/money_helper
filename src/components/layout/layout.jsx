@@ -2,7 +2,18 @@ import accountBtn from '../../img/icons/user-cog-solid.svg';
 import backBtn from '../../img/icons/arrow-alt-circle-left-solid.svg';
 import classes from './layout.module.css';
 import { withRouter } from 'react-router';
+import LoadingModal from './../UI/loadingModal';
+import { connect } from 'react-redux';
+
 const Layout = props => {
+	let loadingModal = '';
+
+	if (props.loading) {
+		loadingModal = <LoadingModal />;
+	} else {
+		loadingModal = '';
+	}
+
 	return (
 		<>
 			<div className={classes.header}>
@@ -18,9 +29,16 @@ const Layout = props => {
 					alt='accountBtn-button'
 				/>
 			</div>
+			{loadingModal}
 			<div>{props.children}</div>
 		</>
 	);
 };
 
-export default withRouter(Layout);
+const mapStateToProp = state => {
+	return {
+		loading: state.loading,
+	};
+};
+
+export default connect(mapStateToProp)(withRouter(Layout));

@@ -6,6 +6,7 @@ const DELETE_ITEM = 'DELETE_ITEM';
 const INSERT_FINANCE = 'INSERT_FINANCE';
 const ERROR = 'ERROR';
 const SIGN_UP = 'SIGN_UP';
+const LOADING = 'LOADING';
 export {
 	authActions,
 	financeActions,
@@ -15,4 +16,5 @@ export {
 	INSERT_FINANCE,
 	ERROR,
 	SIGN_UP,
+	LOADING,
 };
