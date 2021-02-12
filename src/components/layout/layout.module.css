@@ -1,7 +1,7 @@
 .header {
 	display: grid;
 	position: absolute;
-	top: 1rem;
+	top: 0rem;
 	align-items: center;
 	grid-template-columns: repeat(4, 25%);
 	width: 100%;
@@ -30,4 +30,10 @@
 
 .conten {
 	overflow: hidden;
+}
+
+@media (min-height: 720px) {
+	.header {
+		height: 15%;
+	}
 }

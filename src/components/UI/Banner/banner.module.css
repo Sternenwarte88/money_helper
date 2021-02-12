@@ -14,3 +14,10 @@
 	top: 88%;
 	right: -28%;
 }
+
+@media (min-width: 1200px) and (min-height: 720px) {
+	.banner_box {
+		top: 80%;
+		right: -37%;
+	}
+}

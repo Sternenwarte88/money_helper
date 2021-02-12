@@ -45,3 +45,9 @@
 	margin-top: 2rem;
 	justify-content: flex-end;
 }
+
+@media (min-width: 720px) and (min-height: 1020px) {
+	.overview {
+		max-height: 450px;
+	}
+}
