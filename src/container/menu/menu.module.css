@@ -1,12 +1,8 @@
-button {
-	width: 51%;
-}
-
 .financeTable {
 	display: grid;
 	grid-template-columns: repeat(2, 50%);
-	margin: 5% 0;
-	justify-items: center;
+	grid-gap: 10%;
+	margin: 5% -5%;
 }
 
 .incomeTable {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router';
 import './App.css';
-import finance from './container/income/finance';
+import finance from './container/finance/finance';
 import Login from './container/login/login';
 import menu from './container/menu/menu';
 import Signup from './container/signup/signup';

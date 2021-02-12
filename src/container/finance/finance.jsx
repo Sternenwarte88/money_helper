@@ -19,17 +19,12 @@ class Income extends Component {
 			id: this.props.id,
 		};
 		this.page = 1;
-		this.itemsToShow = 10;
+		this.itemsToShow = '10';
 		this.financeType = '';
 	}
 
 	componentDidMount() {
-		if (this.props.location.pathname === '/income') {
-			this.financeType = 'income';
-		}
-		if (this.props.location.pathname === '/bills') {
-			this.financeType = 'bills';
-		}
+		this.financeType = this.props.location.pathname.slice(1);
 		this.props.getFinanceData(this.financeType);
 	}
 	inputValueHandler = (event, name) => {
@@ -39,7 +34,7 @@ class Income extends Component {
 
 	render() {
 		//*	output for income, sorted and sliced for pagination
-
+		console.log(this.itemsToShow);
 		let translatedFinanceType = '';
 		if (this.financeType === 'income') {
 			translatedFinanceType = 'Einnahmen';
@@ -59,6 +54,7 @@ class Income extends Component {
 		} else {
 			financeData = this.props.financeData.bills;
 		}
+
 		if (financeData) {
 			financeData.map(data => {
 				return (sum += data.amount);
@@ -78,7 +74,6 @@ class Income extends Component {
 				.slice(firstItemPerPage, lastItemPerPage)
 				.map(data => {
 					let date = new Date(data.date);
-					console.log(data.date);
 					return (
 						<FinanceSummaryItem
 							amount={data.amount}
@@ -110,7 +105,7 @@ class Income extends Component {
 							name='itemsToShow'
 							id=''
 							onChange={event => {
-								this.items = event.target.value;
+								this.itemsToShow = event.target.value;
 								this.props.getFinanceData(this.financeType);
 							}}>
 							<option value='10'>10</option>

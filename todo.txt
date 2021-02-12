@@ -1,9 +1,12 @@
+0.1:
+
+Responsive design ready
+Performance optimisation
+
+later:
 finance.jsx
 // TODO Add repeat option for insert data
 
-login.jsx
-
-// TODO: Loading Modal (loading circle)
 
 menu.jsx
 // TODO: Make overview

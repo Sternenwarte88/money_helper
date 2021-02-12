@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
+import * as actionCreators from '../../store/actions/actionCreators';
+import Error from '../../utility/error';
 import {
+	confirmPassword,
 	validMail,
 	validPassword,
-	confirmPassword,
 } from '../../utility/inputValidation';
 import classes from '../signup/signup.module.css';
-import Error from '../../utility/error';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions/actionCreators';
+import Banner from '../../components/UI/Banner/banner';
 
 class signUp extends Component {
 	state = {
@@ -42,6 +43,7 @@ class signUp extends Component {
 
 		return (
 			<>
+				<Banner />
 				<div className={classes.signUp}>
 					<HeadTitle site={'Sign Up'} />
 					<div className={classes.form}>

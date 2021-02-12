@@ -89,7 +89,7 @@ class Menu extends React.Component {
 			<>
 				<HeadTitle site={'Menü'} />
 				<div>
-					<button>Übersicht</button>
+					<button disabled>Übersicht</button>
 					<button onClick={incomePageHandler}>Einnahmen</button>
 					<button onClick={billsPageHandler}>Ausgaben</button>
 				</div>
@@ -109,7 +109,7 @@ class Menu extends React.Component {
 	}
 }
 
-const mapStateToProp = (state, ownProps) => {
+const mapStateToProp = (state) => {
 	return {
 		loggedIn: state.loggedIn,
 		financeData: state.financeData,

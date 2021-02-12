@@ -13,7 +13,6 @@ export const login = (loginInformation, props) => {
 				password: loginInformation.password,
 			})
 			.then(res => {
-				console.log(res);
 				if (res.status === 200 && res.data.msg === 'accepted') {
 					const newInformation = {
 						...loginInformation,
@@ -31,7 +30,7 @@ export const login = (loginInformation, props) => {
 						status: res.data.status,
 						message: res.data.msg,
 					};
-					dispatch( error( errorData ) );
+					dispatch(error(errorData));
 				}
 			})
 			.then(res => {

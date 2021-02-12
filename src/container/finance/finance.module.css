@@ -1,8 +1,10 @@
 .overview {
 	display: grid;
 	grid-template-columns: repeat(4, auto);
-	grid-auto-rows: auto;
+	grid-auto-rows: 40%;
+	overflow: scroll;
 	margin: 1rem 0;
+	max-height: 250px;
 }
 .input_income {
 	margin: 0 5px;
