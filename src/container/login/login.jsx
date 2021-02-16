@@ -9,18 +9,25 @@ import classes from './login.module.css';
 import Banner from '../../components/UI/Banner/banner';
 
 class Login extends Component {
-	state = {
-		email: ' ',
-		password: ' ',
-	};
+	constructor(props) {
+		super();
+		this.state = {
+			email: ' ',
+			password: ' ',
+			deferredPrompt: '',
+		};
+		this.timer = '';
+	}
 
 	inputChangedHandler = (event, name) => {
 		const newstate = {
 			...this.state,
 			[name]: event.target.value,
 		};
-		this.setState(newstate);
+		clearTimeout(this.timer);
+		this.timer = setTimeout(() => this.setState(newstate), 1000);
 	};
+
 	signupPageHandler = () => {
 		this.props.history.push('/signUp');
 	};
@@ -29,6 +36,15 @@ class Login extends Component {
 		const email = 'email';
 		const password = 'password';
 
+		window.addEventListener('beforeinstallprompt', event => {
+			console.log('prevent install prompt');
+			event.preventDefault();
+			let newState = {
+				...this.state,
+				deferredPrompt: event,
+			};
+			this.setState(newState);
+		});
 		return (
 			<>
 				<Banner />

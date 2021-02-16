@@ -1,9 +1,33 @@
 {
-	"short_name": "React App",
-	"name": "Create React App Sample",
-	"icons": [],
+	"short_name": "Money Helper",
+	"name": "Money Helper - Finances cleared",
+	"icons": [
+		{
+			"src": "images/pwa-icon-64.png",
+			"sizes": "64x64",
+			"type": "image/png"
+		},
+		{
+			"src": "images/pwa-icon-128.png",
+			"sizes": "128x128",
+			"type": "image/png"
+		},
+		{
+			"src": "images/pwa-icon-256.png",
+			"sizes": "256x256",
+			"type": "image/png"
+		},
+		{
+			"src": "images/pwa-icon-512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
 	"start_url": "./",
 	"display": "standalone",
-	"theme_color": "#000000",
-	"background_color": "#ffffff"
+	"orientation": "portrait",
+	"theme_color": "white",
+	"background_color": "#00ffe7",
+	"description": "A little helper App for your finances",
+	"lang": "de-DE"
 }

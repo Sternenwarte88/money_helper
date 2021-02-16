@@ -15,10 +15,19 @@ const cookie = new Cookies();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
+
 axios.interceptors.request.use(config => {
 	config.headers.authorization = cookie.get('loginState');
 	return config;
 });
+
+if ('serviceWorker' in navigator) {
+	navigator.serviceWorker.register('serviceWorker.js').then(reg => {
+		console.log('serviceWorker is running');
+	});
+}
+
+
 
 const app = (
 	<BrowserRouter>
