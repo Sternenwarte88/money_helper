@@ -10,24 +10,17 @@ import axios from './axiosDefault';
 import Layout from './components/layout/layout';
 import './index.css';
 import reducer from './store/reducer';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import reportWebVitals from './reportWebVitals';
 
 const cookie = new Cookies();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
-
 axios.interceptors.request.use(config => {
 	config.headers.authorization = cookie.get('loginState');
 	return config;
 });
-
-if ('serviceWorker' in navigator) {
-	navigator.serviceWorker.register('serviceWorker.js').then(reg => {
-		console.log('serviceWorker is running');
-	});
-}
-
-
 
 const app = (
 	<BrowserRouter>
@@ -43,3 +36,13 @@ ReactDOM.render(
 	<React.StrictMode>{app}</React.StrictMode>,
 	document.getElementById('root')
 );
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://cra.link/PWA
+serviceWorkerRegistration.register();
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();

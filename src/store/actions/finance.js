@@ -5,9 +5,10 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const getFinanceData = (financeType, dispatch) => {
+	const url = '/getFinanceData';
 	dispatch(loading(true));
 	instance
-		.get('/getFinanceData', {
+		.get(url, {
 			params: {
 				financeType: financeType,
 				id: cookies.get('id'),
@@ -15,6 +16,8 @@ const getFinanceData = (financeType, dispatch) => {
 		})
 		.then(response => {
 			console.log(response);
+			getCache(url);
+
 			let financeData = response.data.finance;
 			let data = financeData;
 			dispatch(getfinance(financeType, data));
@@ -24,22 +27,6 @@ const getFinanceData = (financeType, dispatch) => {
 			dispatch(loading(false));
 			console.log(err);
 		});
-};
-
-export const getFinance = financeType => {
-	console.log('runs');
-
-	return dispatch => {
-		getFinanceData(financeType, dispatch);
-	};
-};
-
-const getfinance = (financeType, data) => {
-	return {
-		type: actionCreators.GET_FINANCE,
-		financeType: financeType,
-		data: data,
-	};
 };
 
 export const insertFinanceData = (amount, reason, date, id, financeType) => {
@@ -78,13 +65,6 @@ export const insertFinanceData = (amount, reason, date, id, financeType) => {
 	};
 };
 
-const dispatchInsertedData = (financeType, newFinanceData) => {
-	return {
-		type: actionCreators.INSERT_FINANCE,
-		financeType: financeType,
-		newFinanceData: newFinanceData,
-	};
-};
 export const deleteHandler = (itemID, financeType, oldState) => {
 	let url = '/deleteFinanceData';
 
@@ -113,6 +93,17 @@ export const deleteHandler = (itemID, financeType, oldState) => {
 	};
 };
 
+const getCache = url => {
+	if ('caches' in window) {
+		caches.match(url).then(response => {
+			if (response) {
+				console.log(response);
+				return response;
+			}
+		});
+	}
+};
+
 const dispatchFilteredFinance = (financeType, filteredFinance) => {
 	return {
 		type: actionCreators.DELETE_ITEM,
@@ -132,5 +123,19 @@ const loading = loading => {
 	return {
 		type: actionCreators.LOADING,
 		loading: loading,
+	};
+};
+
+export const getFinance = financeType => {
+	return dispatch => {
+		getFinanceData(financeType, dispatch);
+	};
+};
+
+const getfinance = (financeType, data) => {
+	return {
+		type: actionCreators.GET_FINANCE,
+		financeType: financeType,
+		data: data,
 	};
 };

@@ -39,10 +39,10 @@ export const login = (loginInformation, props) => {
 			})
 			.then(res => {
 				props.history.push('/menu');
+
 				return loginInformation;
 			})
 			.then(loginInformation => {
-				console.log(loginInformation);
 				loginInformation.deferredPrompt.prompt();
 			})
 			.catch(err => {
