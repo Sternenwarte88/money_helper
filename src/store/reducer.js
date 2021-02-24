@@ -1,108 +1,107 @@
 import * as actionTypes from './actions/actionCreators';
 const initialState = {
-	email: '',
-	loginState: false,
-	id: '',
-	auth: false,
-	financeData: {},
+  email: '',
+  loginState: false,
+  id: '',
+  auth: false,
+  financeData: {}
 };
 
 const reducer = (state = initialState, action) => {
-	switch (action.type) {
-		case actionTypes.LOGIN:
-			return {
-				...state,
-				email: action.loginInformation.email,
-				loginState: action.loginInformation.loggedIn,
-				id: action.loginInformation.id,
-			};
-		case actionTypes.GET_FINANCE:
-			if (action.financeType === 'bills') {
-				return {
-					...state,
+  switch (action.type) {
+    case actionTypes.LOGIN:
+      return {
+        ...state,
+        email: action.loginInformation.email,
+        loginState: action.loginInformation.loggedIn,
+        id: action.loginInformation.id
+      };
+    case actionTypes.GET_FINANCE:
+      if (action.financeType === 'bills') {
+        return {
+          ...state,
 
-					financeData: {
-						income: state.financeData.income,
-						bills: action.data.bills,
-					},
-				};
-			} else if (action.financeType === 'income') {
-				return {
-					...state,
+          financeData: {
+            income: state.financeData.income,
+            bills: action.data.bills
+          }
+        };
+      } else if (action.financeType === 'income') {
+        return {
+          ...state,
 
-					financeData: {
-						income: action.data.income,
-						bills: state.financeData.bills,
-					},
-				};
-			} else if (action.financeType === 'completeFinanceData') {
-				return {
-					...state,
+          financeData: {
+            income: action.data.income,
+            bills: state.financeData.bills
+          }
+        };
+      } else if (action.financeType === 'completeFinanceData') {
+        return {
+          ...state,
 
-					financeData: {
-						income: action.data.income,
-						bills: action.data.bills,
-					},
-				};
-			}
-			break;
+          financeData: {
+            income: action.data.income,
+            bills: action.data.bills
+          }
+        };
+      }
+      break;
 
-		case actionTypes.INSERT_FINANCE:
-			const financeType = action.financeType;
-			console.log(action);
-			return {
-				...state,
-				financeData: {
-					[financeType]: {
-						amount: action.newFinanceData.amount,
-						reason: action.newFinanceData.reason,
-						date: action.newFinanceData.date,
-					},
-				},
-			};
+    case actionTypes.INSERT_FINANCE:
+      console.log(action);
+      return {
+        ...state,
+        financeData: {
+          [action.financeType]: {
+            amount: action.newFinanceData.amount,
+            reason: action.newFinanceData.reason,
+            date: action.newFinanceData.date
+          }
+        }
+      };
 
-		case actionTypes.DELETE_ITEM:
-			if (action.financeType === 'bills') {
-				return {
-					...state,
+    case actionTypes.DELETE_ITEM:
+      if (action.financeType === 'bills') {
+        return {
+          ...state,
 
-					financeData: {
-						income: state.financeData.income,
-						bills: action.filteredFinance,
-					},
-				};
-			} else if (action.financeType === 'income') {
-				return {
-					...state,
+          financeData: {
+            income: state.financeData.income,
+            bills: action.filteredFinance
+          }
+        };
+      } else if (action.financeType === 'income') {
+        return {
+          ...state,
 
-					financeData: {
-						income: action.filteredFinance,
-						bills: state.financeData.bills,
-					},
-				};
-			}
-			break;
-		case actionTypes.ERROR:
-			return {
-				...state,
-				error: {
-					status: action.error.status,
-					message: action.error.message,
-				},
-			};
+          financeData: {
+            income: action.filteredFinance,
+            bills: state.financeData.bills
+          }
+        };
+      }
+      break;
+    case actionTypes.ERROR:
+      return {
+        ...state,
+        error: {
+          status: action.error.status,
+          message: action.error.message
+        }
+      };
 
-		case actionTypes.LOADING:
-			console.log(action.loading);
-			return {
-				...state,
-				loading: action.loading,
-			};
+    case actionTypes.LOADING:
+      console.log(action.loading);
+      return {
+        ...state,
+        loading: action.loading
+      };
 
-		default:
-			console.log(action);
-			console.log('failed');
-			return state;
-	}
+    default:
+      console.log(action);
+      console.log('failed');
+      return state;
+  }
 };
 
 export default reducer;

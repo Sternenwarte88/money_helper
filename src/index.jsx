@@ -18,23 +18,23 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 axios.interceptors.request.use(config => {
-	config.headers.authorization = cookie.get('loginState');
-	return config;
+  config.headers.authorization = cookie.get('loginState');
+  return config;
 });
 
 const app = (
-	<BrowserRouter>
-		<Provider store={store}>
-			<Layout>
-				<App />
-			</Layout>
-		</Provider>
-	</BrowserRouter>
+  <BrowserRouter>
+    <Provider store={store}>
+      <Layout>
+        <App />
+      </Layout>
+    </Provider>
+  </BrowserRouter>
 );
 
 ReactDOM.render(
-	<React.StrictMode>{app}</React.StrictMode>,
-	document.getElementById('root')
+  <React.StrictMode>{app}</React.StrictMode>,
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

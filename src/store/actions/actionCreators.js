@@ -8,13 +8,13 @@ const ERROR = 'ERROR';
 const SIGN_UP = 'SIGN_UP';
 const LOADING = 'LOADING';
 export {
-	authActions,
-	financeActions,
-	LOGIN,
-	GET_FINANCE,
-	DELETE_ITEM,
-	INSERT_FINANCE,
-	ERROR,
-	SIGN_UP,
-	LOADING,
+  authActions,
+  financeActions,
+  LOGIN,
+  GET_FINANCE,
+  DELETE_ITEM,
+  INSERT_FINANCE,
+  ERROR,
+  SIGN_UP,
+  LOADING
 };
