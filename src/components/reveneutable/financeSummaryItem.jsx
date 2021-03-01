@@ -2,7 +2,7 @@
 import trash from '../../img/icons/trash-alt-regular.svg';
 import classes from './financeSummaryItem.module.css';
 
-const financeSummaryItem = props => {
+const financeSummaryItem = (props) => {
   let trashCan;
 
   if (props.clicked) {

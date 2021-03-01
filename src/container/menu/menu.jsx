@@ -21,7 +21,7 @@ class Menu extends React.Component {
     if (this.props.financeData.income) {
       financeData = this.props.financeData.income;
 
-      financeData.map(data => {
+      financeData.map((data) => {
         return (sumIncome += data.amount);
       });
 
@@ -37,7 +37,7 @@ class Menu extends React.Component {
           return 0;
         })
         .slice(0, 3)
-        .map(data => {
+        .map((data) => {
           const date = new Date(data.date);
           return (
             <FinanceSummaryItem
@@ -51,7 +51,7 @@ class Menu extends React.Component {
     }
     if (this.props.financeData.bills) {
       financeData = this.props.financeData.bills;
-      financeData.map(data => {
+      financeData.map((data) => {
         return (sumBills += data.amount);
       });
 
@@ -67,7 +67,7 @@ class Menu extends React.Component {
           return 0;
         })
         .slice(0, 3)
-        .map(data => {
+        .map((data) => {
           const date = new Date(data.date);
           return (
             <FinanceSummaryItem
@@ -109,17 +109,16 @@ class Menu extends React.Component {
   }
 }
 
-const mapStateToProp = state => {
+const mapStateToProp = (state) => {
   return {
     loggedIn: state.loggedIn,
     financeData: state.financeData
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    getFinanceData: financeType =>
-      dispatch(actionCreators.financeActions.getFinance(financeType))
+    getFinanceData: (financeType) => dispatch(actionCreators.financeActions.getFinance(financeType))
   };
 };
 export default connect(mapStateToProp, mapDispatchToProps)(Menu);

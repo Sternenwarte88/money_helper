@@ -4,11 +4,7 @@ import { HeadTitle } from '../../components/UI/headTitle';
 import Input from '../../components/UI/Input';
 import * as actionCreators from '../../store/actions/actionCreators';
 import Error from '../../utility/error';
-import {
-  confirmPassword,
-  validMail,
-  validPassword
-} from '../../utility/inputValidation';
+import { confirmPassword, validMail, validPassword } from '../../utility/inputValidation';
 import classes from '../signup/signup.module.css';
 import Banner from '../../components/UI/Banner/banner';
 
@@ -34,10 +30,7 @@ class signUp extends Component {
 
     let disabled = '';
 
-    if (
-      this.state.password !== this.state.confirmPWD ||
-      this.state.password.length <= 0
-    ) {
+    if (this.state.password !== this.state.confirmPWD || this.state.password.length <= 0) {
       disabled = 'disabled';
     }
 
@@ -54,7 +47,7 @@ class signUp extends Component {
               name={email}
               type={email}
               placeholder='example@example.de'
-              changeValue={event => this.inputChangedHandler(event, email)}>
+              changeValue={(event) => this.inputChangedHandler(event, email)}>
               {this.state.email}
             </Input>
             <label htmlFor='password'>Lege Dein Passwort fest</label>
@@ -65,25 +58,18 @@ class signUp extends Component {
               type={password}
               value={this.value}
               placeholder='Dein Passwort'
-              changeValue={event =>
-                this.inputChangedHandler(event, 'password')
-              }>
+              changeValue={(event) => this.inputChangedHandler(event, 'password')}>
               {this.state.password}
             </Input>
             <label htmlFor='confirmPWD'>Bestätige dein Passwort</label>
             <Input
               class={classes.input}
-              isValid={confirmPassword(
-                this.state.password,
-                this.state.confirmPWD
-              )}
+              isValid={confirmPassword(this.state.password, this.state.confirmPWD)}
               name={confirmPWD}
               type={password}
               value={this.value}
               placeholder='Bestätige dein Passwort'
-              changeValue={event =>
-                this.inputChangedHandler(event, 'confirmPWD')
-              }>
+              changeValue={(event) => this.inputChangedHandler(event, 'confirmPWD')}>
               {this.state.password}
             </Input>
             <Error />
@@ -96,9 +82,7 @@ class signUp extends Component {
                 {' '}
                 Erstelle Account{' '}
               </button>
-              <button onClick={this.loginHandler}>
-                Hast Du schon einen Account?
-              </button>
+              <button onClick={this.loginHandler}>Hast Du schon einen Account?</button>
             </div>
           </div>
         </div>
@@ -107,13 +91,13 @@ class signUp extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     error: state.error
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     signUp: (state, props) => {
       dispatch(actionCreators.authActions.signUpHandler(state, props));

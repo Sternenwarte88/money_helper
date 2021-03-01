@@ -14,8 +14,7 @@ const getFinanceData = (financeType, dispatch) => {
         id: cookies.get('id')
       }
     })
-    .then(response => {
-      console.log(response);
+    .then((response) => {
       getCache(url);
 
       const financeData = response.data.finance;
@@ -23,14 +22,14 @@ const getFinanceData = (financeType, dispatch) => {
       dispatch(getfinance(financeType, data));
       dispatch(loading(false));
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(loading(false));
       console.log(err);
     });
 };
 
 export const insertFinanceData = (amount, reason, date, id, financeType) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(loading(true));
     instance
       .post('/insertFinanceData', {
@@ -40,8 +39,7 @@ export const insertFinanceData = (amount, reason, date, id, financeType) => {
         id: id,
         financeType: financeType
       })
-      .then(res => {
-        console.log(res);
+      .then((res) => {
         if (res.data.msg === 'accepted') {
           const errorData = '';
           dispatch(error(errorData));
@@ -55,11 +53,11 @@ export const insertFinanceData = (amount, reason, date, id, financeType) => {
 
         return financeType;
       })
-      .then(financeType => {
+      .then((financeType) => {
         getFinanceData(financeType, dispatch);
         dispatch(loading(false));
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -68,7 +66,7 @@ export const insertFinanceData = (amount, reason, date, id, financeType) => {
 export const deleteHandler = (itemID, financeType, oldState) => {
   const url = '/deleteFinanceData';
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch(loading(true));
     instance
       .delete(url, {
@@ -77,27 +75,24 @@ export const deleteHandler = (itemID, financeType, oldState) => {
           itemID: itemID
         }
       })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200) {
-          const filteredFinance = oldState.filter(
-            obj => obj._id !== itemID.toString()
-          );
+          const filteredFinance = oldState.filter((obj) => obj._id !== itemID.toString());
           dispatch(dispatchFilteredFinance(financeType, filteredFinance));
           dispatch(loading(false));
         }
       })
-      .catch(err => {
+      .catch((err) => {
         dispatch(loading(false));
         console.log(err);
       });
   };
 };
 
-const getCache = url => {
+const getCache = (url) => {
   if ('caches' in window) {
-    caches.match(url).then(response => {
+    caches.match(url).then((response) => {
       if (response) {
-        console.log(response);
         return response;
       }
     });
@@ -112,22 +107,22 @@ const dispatchFilteredFinance = (financeType, filteredFinance) => {
   };
 };
 
-const error = errorData => {
+const error = (errorData) => {
   return {
     type: actionCreators.ERROR,
     error: errorData
   };
 };
 
-const loading = loading => {
+const loading = (loading) => {
   return {
     type: actionCreators.LOADING,
     loading: loading
   };
 };
 
-export const getFinance = financeType => {
-  return dispatch => {
+export const getFinance = (financeType) => {
+  return (dispatch) => {
     getFinanceData(financeType, dispatch);
   };
 };

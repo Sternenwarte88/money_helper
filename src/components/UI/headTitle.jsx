@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './headTitle.module.css';
 
-export const HeadTitle = props => {
+export const HeadTitle = (props) => {
   let welcome;
   if (props.site === 'Login' || props.site === 'Sign Up') {
     welcome = (

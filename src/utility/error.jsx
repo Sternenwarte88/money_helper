@@ -2,7 +2,7 @@ import React from 'react';
 import ErrorComponent from '../components/error/error';
 import { connect } from 'react-redux';
 
-const Error = props => {
+const Error = (props) => {
   let errorHandler = '';
 
   if (props.error) {
@@ -13,7 +13,7 @@ const Error = props => {
   return errorHandler;
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { error: state.error };
 };
 

@@ -17,8 +17,7 @@ class app extends Component {
       return (
         <div>
           <h1>
-            You are Offline! <br /> Please get a internet connection and try
-            again
+            You are Offline! <br /> Please get a internet connection and try again
           </h1>
         </div>
       );
@@ -44,7 +43,7 @@ class app extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loggedIn: state.loginState
   };

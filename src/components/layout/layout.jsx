@@ -7,7 +7,7 @@ import { withRouter } from 'react-router';
 import LoadingModal from './../UI/loadingModal';
 import { connect } from 'react-redux';
 
-const Layout = props => {
+const Layout = (props) => {
   let loadingModal = '';
 
   if (props.loading) {
@@ -19,17 +19,8 @@ const Layout = props => {
   return (
     <>
       <div className={classes.header}>
-        <img
-          onClick={props.history.goBack}
-          className={classes.backBtn}
-          src={backBtn}
-          alt='back-button'
-        />
-        <img
-          className={classes.accountBtn}
-          src={accountBtn}
-          alt='accountBtn-button'
-        />
+        <img onClick={props.history.goBack} className={classes.backBtn} src={backBtn} alt='back-button' />
+        <img className={classes.accountBtn} src={accountBtn} alt='accountBtn-button' />
       </div>
       {loadingModal}
       <div>{props.children}</div>
@@ -37,7 +28,7 @@ const Layout = props => {
   );
 };
 
-const mapStateToProp = state => {
+const mapStateToProp = (state) => {
   return {
     loading: state.loading
   };

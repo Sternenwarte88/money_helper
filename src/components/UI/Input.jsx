@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './input.module.css';
 
-const Input = props => {
+const Input = (props) => {
   const inputClasses = [];
   const isValid = props.isValid;
   if (!isValid) {

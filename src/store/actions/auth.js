@@ -5,14 +5,14 @@ import instance from './../../axiosDefault';
 export const login = (loginInformation, props) => {
   const cookies = new Cookies();
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch(loading(true));
     instance
       .post('/login', {
         email: loginInformation.email,
         password: loginInformation.password
       })
-      .then(res => {
+      .then((res) => {
         if (res.status === 200 && res.data.msg === 'accepted') {
           const newInformation = {
             ...loginInformation,
@@ -33,20 +33,20 @@ export const login = (loginInformation, props) => {
           dispatch(error(errorData));
         }
       })
-      .then(res => {
+      .then((res) => {
         dispatch(loading(false));
         return res;
       })
-      .then(res => {
-        if (res.ok) {
+      .then((res) => {
+        if (res.status === 200) {
           props.history.push('/menu');
           return loginInformation;
         }
       })
-      .then(loginInformation => {
+      .then((loginInformation) => {
         loginInformation.deferredPrompt.prompt();
       })
-      .catch(err => {
+      .catch((err) => {
         const newInformation = {
           ...loginInformation,
           loggedIn: false
@@ -58,7 +58,7 @@ export const login = (loginInformation, props) => {
 };
 
 export const signUpHandler = (signUpData, props) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(loading(true));
     instance
       .post(
@@ -74,7 +74,7 @@ export const signUpHandler = (signUpData, props) => {
           mode: 'cors'
         }
       )
-      .then(res => {
+      .then((res) => {
         if (res.data.msg === 'Benutzer erstellt!') {
           dispatch(loading(false));
           props.history.push('/');
@@ -82,33 +82,32 @@ export const signUpHandler = (signUpData, props) => {
           const errorData = {
             ...signUpData,
             status: res.data.status,
-            message: res.data.msg.errors[0].msg
+            message: res.data.msg
           };
           dispatch(loading(false));
           dispatch(error(errorData));
         }
-      })
-      .catch(err => {
+      }).catch((err) => {
         console.log(err);
       });
   };
 };
 
-const loginData = loginInformation => {
+const loginData = (loginInformation) => {
   return {
     type: actionCreators.LOGIN,
     loginInformation: loginInformation
   };
 };
 
-const error = errorData => {
+const error = (errorData) => {
   return {
     type: actionCreators.ERROR,
     error: errorData
   };
 };
 
-const loading = loading => {
+const loading = (loading) => {
   return {
     type: actionCreators.LOADING,
     loading: loading

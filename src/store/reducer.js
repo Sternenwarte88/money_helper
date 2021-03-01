@@ -48,7 +48,6 @@ const reducer = (state = initialState, action) => {
       break;
 
     case actionTypes.INSERT_FINANCE:
-      console.log(action);
       return {
         ...state,
         financeData: {
@@ -91,15 +90,12 @@ const reducer = (state = initialState, action) => {
       };
 
     case actionTypes.LOADING:
-      console.log(action.loading);
       return {
         ...state,
         loading: action.loading
       };
 
     default:
-      console.log(action);
-      console.log('failed');
       return state;
   }
 };

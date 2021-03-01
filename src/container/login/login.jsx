@@ -26,7 +26,7 @@ class Login extends Component {
       [name]: event.target.value
     };
     clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.setState(newstate), 1000);
+    this.timer = setTimeout(() => this.setState(newstate), 500);
   };
 
   signupPageHandler = () => {
@@ -37,8 +37,7 @@ class Login extends Component {
     const email = 'email';
     const password = 'password';
 
-    window.addEventListener('beforeinstallprompt', event => {
-      console.log('prevent install prompt');
+    window.addEventListener('beforeinstallprompt', (event) => {
       event.preventDefault();
       const newState = {
         ...this.state,
@@ -60,9 +59,7 @@ class Login extends Component {
               type={email}
               isValid={validMail(this.state.email)}
               placeholder='example@example.de'
-              changeValue={(event, name) =>
-                this.inputChangedHandler(event, email)
-              }>
+              changeValue={(event, name) => this.inputChangedHandler(event, 'email')}>
               {this.state.email}
             </Input>
             <label htmlFor='password'>Dein Passwort:</label>
@@ -73,9 +70,7 @@ class Login extends Component {
               isValid={validPassword(this.state.password)}
               value={this.value}
               placeholder='Dein Passwort'
-              changeValue={(event, name) =>
-                this.inputChangedHandler(event, 'password')
-              }>
+              changeValue={(event, name) => this.inputChangedHandler(event, 'password')}>
               {this.state.password}
             </Input>
             <Error />
@@ -99,9 +94,7 @@ class Login extends Component {
                 }}>
                 Login
               </button>
-              <button
-                className={classes.signUpBtn}
-                onClick={this.signupPageHandler}>
+              <button className={classes.signUpBtn} onClick={this.signupPageHandler}>
                 Noch keinen Account?
               </button>
             </div>
@@ -112,7 +105,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     loggedIn: state.loginState,
     error: state.error,
@@ -120,10 +113,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    loginAction: (state, props) =>
-      dispatch(actionCreators.authActions.login(state, props))
+    loginAction: (state, props) => dispatch(actionCreators.authActions.login(state, props))
   };
 };
 

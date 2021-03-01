@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './progressBar.module.css';
 
-const ProgressBar = props => {
+const ProgressBar = (props) => {
   const sumFinance = props.income + props.bills;
   const percentIncome = props.income / sumFinance;
   const percentBills = props.bills / sumFinance;
@@ -10,12 +10,8 @@ const ProgressBar = props => {
       <h1>Summary</h1>
       <div className={classes.progressBarContainer}>
         <div className={classes.progressBar}>
-          <div
-            className={classes.incomeBar}
-            style={{ width: `calc(100% * ${percentIncome})` }}></div>
-          <div
-            className={classes.billsBar}
-            style={{ width: `calc(100% * ${percentBills})` }}></div>
+          <div className={classes.incomeBar} style={{ width: `calc(100% * ${percentIncome})` }}></div>
+          <div className={classes.billsBar} style={{ width: `calc(100% * ${percentBills})` }}></div>
         </div>
       </div>
       <div className={classes.summary}>

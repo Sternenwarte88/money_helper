@@ -12,12 +12,17 @@ import './index.css';
 import reducer from './store/reducer';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config({ path: '/.env.development' });
+} else if (process.env.NODE_ENV === 'production') {
+  require('dotenv').config({ path: '/.env.production' });
+}
 
 const cookie = new Cookies();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
-axios.interceptors.request.use(config => {
+axios.interceptors.request.use((config) => {
   config.headers.authorization = cookie.get('loginState');
   return config;
 });
@@ -32,10 +37,7 @@ const app = (
   </BrowserRouter>
 );
 
-ReactDOM.render(
-  <React.StrictMode>{app}</React.StrictMode>,
-  document.getElementById('root')
-);
+ReactDOM.render(<React.StrictMode>{app}</React.StrictMode>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
