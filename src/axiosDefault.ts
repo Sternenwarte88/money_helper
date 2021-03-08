@@ -1,14 +1,14 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-const instance = axios.create({
+const instance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   headers: {
     'Content-Type': 'application/json'
     // Authorization: cookies.get('loginState'),
   },
-  mode: 'cors',
+  // mode: 'cors',
   params: { id: cookies.get('id') }
 });
 

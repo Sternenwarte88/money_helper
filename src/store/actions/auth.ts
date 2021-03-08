@@ -1,6 +1,6 @@
 import Cookies from 'universal-cookie';
 import * as actionCreators from './actionCreators';
-import instance from './../../axiosDefault';
+import instance from '../../axiosDefault';
 
 export const login = (loginInformation, props) => {
   const cookies = new Cookies();

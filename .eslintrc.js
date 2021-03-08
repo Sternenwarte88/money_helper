@@ -3,8 +3,11 @@ module.exports = {
     browser: true,
     es2021: true
   },
-  extends: ['plugin:react/recommended', 'standard'],
-  parser: 'babel-eslint',
+  extends: [
+    'plugin:react/recommended',
+    'standard'
+  ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -12,11 +15,14 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
-  plugins: ['react'],
+  plugins: [
+    'react',
+    '@typescript-eslint'
+  ],
   rules: {
-    semi: 'off',
-    'space-before-function-paren': 'error',
-    'react/prop-types': 'off',
-    'no-console': 1
+    semi: [2, 'always'],
+    '@typescript-eslint/semi': [2, 'always'],
+    'no-use-before-define': 0
+
   }
 };

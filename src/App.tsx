@@ -17,25 +17,26 @@ class app extends Component {
       return (
         <div>
           <h1>
-            You are Offline! <br /> Please get a internet connection and try again
+            You are Offline! <br /> Please get a internet connection and try
+            again
           </h1>
         </div>
       );
     }
     let mainMenu = (
       <Switch>
-        <Route path='/' exact component={Login} />
-        <Route path='/signup' exact component={Signup} />
+        <Route path="/" exact component={Login} />
+        <Route path="/signup" exact component={Signup} />
       </Switch>
     );
     // if (auth) {
     mainMenu = (
       <Switch>
-        <Route path='/' exact component={Login} />
-        <Route path='/signup' exact component={Signup} />
-        <Route path='/menu' exact component={menu} />
-        <Route path='/income' exact component={finance} />
-        <Route path='/bills' exact component={finance} />
+        <Route path="/" exact component={Login} />
+        <Route path="/signup" exact component={Signup} />
+        <Route path="/menu" exact component={menu} />
+        <Route path="/income" exact component={finance} />
+        <Route path="/bills" exact component={finance} />
       </Switch>
     );
     // }

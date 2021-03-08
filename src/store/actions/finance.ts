@@ -1,5 +1,5 @@
 import * as actionCreators from './actionCreators';
-import instance from './../../axiosDefault';
+import instance from '../../axiosDefault';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();

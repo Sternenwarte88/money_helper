@@ -4,7 +4,7 @@ import accountBtn from '../../img/icons/user-cog-solid.svg';
 import backBtn from '../../img/icons/arrow-alt-circle-left-solid.svg';
 import classes from './layout.module.css';
 import { withRouter } from 'react-router';
-import LoadingModal from './../UI/loadingModal';
+import LoadingModal from '../UI/loadingModal';
 import { connect } from 'react-redux';
 
 const Layout = (props) => {

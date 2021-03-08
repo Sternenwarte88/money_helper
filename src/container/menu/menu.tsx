@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ProgressBar from '../../components/progressBar/progressBar';
 import { HeadTitle } from '../../components/UI/headTitle';
 import * as actionCreators from '../../store/actions/actionCreators';
-import FinanceSummaryItem from './../../components/reveneutable/financeSummaryItem';
+import FinanceSummaryItem from '../../components/reveneutable/financeSummaryItem';
 import classes from './menu.module.css';
 
 class Menu extends React.Component {
